@@ -11,6 +11,9 @@ import java.sql.*;
  */
 public class Conexion {
      String conexion = "jdbc:sqlite:C:\\Users\\Christian\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleado.s3db";
+     String conexMontalvo = "conexion";
+     String conexPat = "";
+     String conexShari = "";
     Connection conn = null;
     
     public Conexion(){
