@@ -10,7 +10,7 @@ import java.sql.*;
  * @author y2jmo
  */
 public class Conexion {
-     String conexion = "jdbc:sqlite:C:\\Users\\Christian\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleado.s3db";
+     String conexion = "jdbc:sqlite:C:\\Users\\Christian\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
      String conexMontalvo = "conexion";
      String conexPat = "";
      String conexShari = "";
