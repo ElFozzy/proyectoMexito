@@ -13,7 +13,7 @@ public class Conexion {
      String conexion = "jdbc:sqlite:C:\\Users\\Christian\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
      String conexMontalvo = "conexion";
      String conexPat = "";
-     String conexShari = "";
+     String conexShari = "jdbc:sqlite:C:\\Users\\shari\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
     Connection conn = null;
     
     public Conexion(){
