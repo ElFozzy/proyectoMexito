@@ -12,7 +12,8 @@ import java.sql.*;
 public class Conexion {
      String conexion = "jdbc:sqlite:C:\\Users\\Christian\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
      String conexMontalvo = "conexion";
-     String conexPat = "";
+     String conexPatF = "jdbc:sqlite:C:\\ControlEmpleados.s3db";
+     String conexPat = "C:\\";
      String conexShari = "jdbc:sqlite:C:\\Users\\shari\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
     Connection conn = null;
     
@@ -23,7 +24,7 @@ public class Conexion {
     public Connection Conectar(){
         try{
             Class.forName("org.sqlite.JDBC");
-            this.conn = DriverManager.getConnection(conexion);
+            this.conn = DriverManager.getConnection(conexPatF);
             System.out.println("Conectado");
         }catch(Exception ex){
             System.err.println("Problemas al conectar se " + ex);
