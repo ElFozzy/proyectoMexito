@@ -48,6 +48,18 @@ public class Conexion {
 
     }
     
+    public int EjecutarComandoSQL(PreparedStatement Sentencia){
+        try {
+            PreparedStatement pstm= Sentencia;
+            pstm.execute();
+            return 1;
+        }catch (SQLException e) {
+            System.out.println(e);
+        return 0;
+        }
+
+    }
+    
     public ResultSet EjecutarSentenciaSQL(String Sentencia){
          try {
                 PreparedStatement pstm=Conectar().prepareStatement(Sentencia);
