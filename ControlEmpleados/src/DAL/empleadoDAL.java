@@ -42,7 +42,7 @@ public class empleadoDAL {
         DefaultTableModel dtm =new DefaultTableModel(
         new Object [][] {},
         new String [] {
-         "id","nombreEmp"
+         "id","nombreEmp","foto"
         }
        ){ @Override
         public boolean isCellEditable(int row, int column) {
