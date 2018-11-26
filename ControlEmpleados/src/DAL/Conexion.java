@@ -5,13 +5,14 @@
  */
 package DAL;
 import java.sql.*;
+import javax.swing.JOptionPane;
 /**
  *
  * @author y2jmo
  */
 public class Conexion {
      String conexion = "jdbc:sqlite:C:\\Users\\Christian\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleado.s3db";
-     String conexMontalvo = "conexion";
+     String conexMontalvo = "jdbc:sqlite:C:\\Users\\y2jmo\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
      String conexPat = "";
      String conexShari = "";
     Connection conn = null;
@@ -23,10 +24,10 @@ public class Conexion {
     public Connection Conectar(){
         try{
             Class.forName("org.sqlite.JDBC");
-            this.conn = DriverManager.getConnection(conexion);
+            this.conn = DriverManager.getConnection(conexMontalvo);
             System.out.println("Conectado");
         }catch(Exception ex){
-            System.err.println("Problemas al conectar se " + ex);
+            System.err.println("Problemas al conectarse " + ex);
         }
         return this.conn;
     }
