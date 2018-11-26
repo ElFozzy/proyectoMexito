@@ -21,6 +21,54 @@ public class empleadoDAL {
     Conexion con = new Conexion();
     
     public int Agregar (empleadoBL objemp){
+        int ComandoEjecutado = con.EjecutarComandoSQL("Insert into Empleados (nombreEmp) values ('"+objemp.getnombreEmp()+"')");
+        con.Desconectar();
+        return ComandoEjecutado;
+    }
+    
+    public int Eliminar (empleadoBL objemp){
+        int ComandoEjecutado = con.EjecutarComandoSQL("Delete from Empleados where id='"+objemp.getId()+"'");
+        con.Desconectar();
+        return ComandoEjecutado;
+    }
+    
+    public int Modificar (empleadoBL objemp){
+        int ComandoEjecutado = con.EjecutarComandoSQL("Update Empleados set nombreEmp='"+objemp.getnombreEmp()+"' where id="+objemp.getId());
+        con.Desconectar();
+        return ComandoEjecutado;        
+    }    
+     public DefaultTableModel CargarDatos(){
+        
+        DefaultTableModel dtm =new DefaultTableModel(
+        new Object [][] {},
+        new String [] {
+         "id","nombreEmp"
+        }
+       ){ @Override
+        public boolean isCellEditable(int row, int column) {
+        // Para no editar en el jTable
+         return false;
+        }};
+
+        try{
+            Conexion objConexion= new Conexion();
+            ResultSet Resultado=objConexion.EjecutarSentenciaSQL("SELECT * FROM Empleados"); 
+        while(Resultado.next()){
+        // Recuperar Datos de la BD
+        Object[] Fila={
+        Resultado.getString(1),
+        Resultado.getString(2),            
+    };
+        // Agregar Datos al JTable
+        dtm.addRow(Fila);
+    }
+    return dtm;
+    }catch(SQLException e){
+    return null;
+    }
+    }    
+    /*
+    public int Agregar (empleadoBL objemp){
         int ComandoEjecutado = con.EjecutarComandoSQL("Insert into Empleados (nombreEmp, foto, sexo, fechaIng, fechaRet, turno) "
                 + "values  ('"+objemp.getnombreEmp()+"','"+objemp.getfoto()+"','"+objemp.getsexo()+"','"+objemp.getfechaIng()+"','"+objemp.getfechaRet()+"','"+objemp.getturno()+"');");
         con.Desconectar();
@@ -39,7 +87,7 @@ public class empleadoDAL {
         con.Desconectar();
         return ComandoEjecutado;
     }
-    
+    */
     public empleadoBL BuscarEmpleado(int id) throws IOException{
         empleadoBL empleado = new empleadoBL();
         try {
@@ -60,7 +108,7 @@ public class empleadoDAL {
         }
         return empleado;
     }
-    
+    /*
     public DefaultTableModel CargarDatos(){
         
         DefaultTableModel dtm =new DefaultTableModel(
@@ -96,5 +144,5 @@ public class empleadoDAL {
     }catch(SQLException e){
     return null;
     }
-    }
+    }*/
 }
