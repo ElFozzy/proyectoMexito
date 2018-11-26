@@ -31,6 +31,7 @@ import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.TimerTask;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -101,27 +102,35 @@ public class Checador extends javax.swing.JFrame {
                         entSal.setIdEmpleado(empleado.getId());
                         entSal.setFecha(new java.sql.Date(fechaActual.getTime()));
                         entSal.setHora(new java.sql.Time(fechaActual.getTime()));
-                        if(entradasSalidas.EntradaPrevia(empleado.getId()))
+                        if(!entradasSalidas.EntradaPrevia(empleado.getId())){
+                           
+                            lblMensaje.setText("Entrada Registrada");
                             entSal.setTipo(false);
-                        else
+                        }else{
                             entSal.setTipo(true);
-                        
+                             lblMensaje.setText("Salida Registrada");
+                        }
                         entradasSalidas.AgregarEntrada(entSal);
                         
-                        lblIcono.setVisible(true);
-                        
-                        if(true)
-                            lblMensaje.setText("Entrada Registrada");
-                        else
-                            lblMensaje.setText("Salida Registrada");
-                        
+                        lblIcono.setVisible(true); 
+                        lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/002-checked.png")));
                         lblMensaje.setVisible(true);
-                        //Thread.sleep(5000);
                         
-                        //lblNombre.setText(null);
-                        //lblIcono.setVisible(false);
-                        //lblMensaje.setVisible(false);
-                        //lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/001-man-user.png")));
+                        java.util.Timer timerout = new java.util.Timer();
+                        
+                        java.util.TimerTask task = new TimerTask() {
+                            @Override
+                            public void run() {
+                                lblNombre.setText("Bienvenido");
+                                lblIcono.setVisible(false);
+                                lblMensaje.setVisible(false);
+                                lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/001-man-user.png")));
+                                timerout.cancel();
+                            }
+                        };
+                        
+                        timerout.schedule(task, 2500,1000);
+                        
                         
                         
                         //ByteArrayInputStream b = new ByteArrayInputStream(empleado.getfoto());
@@ -137,9 +146,7 @@ public class Checador extends javax.swing.JFrame {
                     Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
                 } catch (IOException ex) {
                     Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
-                }// catch (InterruptedException ex) {
-                   // Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
-                //}
+                }
                 
             }
         });
