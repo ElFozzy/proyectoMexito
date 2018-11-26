@@ -5,6 +5,10 @@
  */
 package GUI;
 
+import BL.EntradaSalidaBL;
+import BL.empleadoBL;
+import DAL.EntradaSalidaDAL;
+import DAL.empleadoDAL;
 import com.github.sarxos.webcam.Webcam;
 import com.github.sarxos.webcam.WebcamPanel;
 import com.github.sarxos.webcam.WebcamResolution;
@@ -16,14 +20,22 @@ import com.google.zxing.Result;
 import com.google.zxing.client.j2se.BufferedImageLuminanceSource;
 import com.google.zxing.common.HybridBinarizer;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.Timer;
 
@@ -41,6 +53,9 @@ public class Checador extends javax.swing.JFrame {
         
         
         initComponents();
+        
+        lblIcono.setVisible(false);
+        lblMensaje.setVisible(false);
         
         fechaActual = new Date();
         DateFormat fechaFormat = new SimpleDateFormat("dd/MM/yyyy");
@@ -73,10 +88,58 @@ public class Checador extends javax.swing.JFrame {
                     BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
                     
                     Result result = new MultiFormatReader().decode(bitmap);
-                    JOptionPane.showMessageDialog(null, result.getText());
+                    if(result.getText() != null){
+                        empleadoDAL empleados = new empleadoDAL();
+                        empleadoBL empleado = empleados.BuscarEmpleado(Integer.parseInt(result.getText()));
+                        
+                        lblNombre.setText(empleado.getnombreEmp());
+                        //BufferedImage fotoEmp = ImageIO.read(new ByteArrayInputStream());
+                        
+                        
+                        EntradaSalidaDAL entradasSalidas = new EntradaSalidaDAL();
+                        EntradaSalidaBL entSal = new EntradaSalidaBL();
+                        entSal.setIdEmpleado(empleado.getId());
+                        entSal.setFecha(new java.sql.Date(fechaActual.getTime()));
+                        entSal.setHora(new java.sql.Time(fechaActual.getTime()));
+                        if(entradasSalidas.EntradaPrevia(empleado.getId()))
+                            entSal.setTipo(false);
+                        else
+                            entSal.setTipo(true);
+                        
+                        entradasSalidas.AgregarEntrada(entSal);
+                        
+                        lblIcono.setVisible(true);
+                        
+                        if(true)
+                            lblMensaje.setText("Entrada Registrada");
+                        else
+                            lblMensaje.setText("Salida Registrada");
+                        
+                        lblMensaje.setVisible(true);
+                        //Thread.sleep(5000);
+                        
+                        //lblNombre.setText(null);
+                        //lblIcono.setVisible(false);
+                        //lblMensaje.setVisible(false);
+                        //lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/001-man-user.png")));
+                        
+                        
+                        //ByteArrayInputStream b = new ByteArrayInputStream(empleado.getfoto());
+                        //ImageIcon icon = new ImageIcon(empleado.getfoto());
+                       
+                        //BufferedImage bf = ImageIO.read(b);
+                        //ImageIcon icon1 = new ImageIcon(bf);
+                        //Icon icono = new ImageIcon(icon.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH));
+                        //lblImagen.setIcon(icon);
+                        
+                    }
                 } catch (NotFoundException ex) {
                     Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
-                }
+                } catch (IOException ex) {
+                    Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
+                }// catch (InterruptedException ex) {
+                   // Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
+                //}
                 
             }
         });
@@ -97,6 +160,10 @@ public class Checador extends javax.swing.JFrame {
 
         lblHora = new javax.swing.JLabel();
         lblFecha = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblImagen = new javax.swing.JLabel();
+        lblIcono = new javax.swing.JLabel();
+        lblMensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,25 +173,62 @@ public class Checador extends javax.swing.JFrame {
         lblFecha.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
         lblFecha.setText("00/00/00");
 
+        lblNombre.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblNombre.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblNombre.setText("Bienvenido");
+
+        lblImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/001-man-user.png"))); // NOI18N
+
+        lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/001-man-user.png"))); // NOI18N
+        lblIcono.setText(",.");
+
+        lblMensaje.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
+        lblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblMensaje.setText("Mensaje");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(226, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblHora, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(lblFecha, javax.swing.GroupLayout.Alignment.TRAILING))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(22, 22, 22)
+                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(lblFecha)
+                            .addComponent(lblHora)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(39, 39, 39)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lblMensaje)
+                    .addComponent(lblIcono))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(225, Short.MAX_VALUE))
+                .addComponent(lblNombre)
+                .addGap(18, 18, 18)
+                .addComponent(lblIcono)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMensaje)
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         pack();
@@ -168,5 +272,9 @@ public class Checador extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblHora;
+    private javax.swing.JLabel lblIcono;
+    private javax.swing.JLabel lblImagen;
+    private javax.swing.JLabel lblMensaje;
+    private javax.swing.JLabel lblNombre;
     // End of variables declaration//GEN-END:variables
 }

@@ -5,25 +5,27 @@
  */
 package BL;
 
+import java.io.InputStream;
+
 /**
  *
  * @author y2jmo
  */
 public class empleadoBL {
     
-    public String id;
+    public int id;
     public String nombreEmp;
-    public byte foto;
+    public byte[] foto;
     public boolean sexo;
     public String fechaIng;
     public String fechaRet;
     public boolean turno;
     
-    public String getId(){
+    public int getId(){
         return id;        
     }
     
-    public void setId(String id){
+    public void setId(int id){
         this.id = id;
     }
     
@@ -35,11 +37,11 @@ public class empleadoBL {
         this.nombreEmp = nombreEmp;
     }
     
-    public byte getfoto(){
+    public byte[] getfoto(){
         return foto;
     }
     
-    public void setfoto(byte foto){
+    public void setfoto(byte[] foto){
         this.foto = foto;
     }
     

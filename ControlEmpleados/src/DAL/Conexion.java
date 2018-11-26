@@ -13,7 +13,7 @@ public class Conexion {
      String conexion = "jdbc:sqlite:C:\\Users\\Christian\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
      String conexMontalvo = "conexion";
      String conexPatF = "jdbc:sqlite:C:\\ControlEmpleados.s3db";
-     String conexPat = "C:\\";
+     String conexPat = "jdbc:sqlite:C:\\BD\\ControlEmpleados.s3db";
      String conexShari = "jdbc:sqlite:C:\\Users\\shari\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
     Connection conn = null;
     
@@ -24,7 +24,7 @@ public class Conexion {
     public Connection Conectar(){
         try{
             Class.forName("org.sqlite.JDBC");
-            this.conn = DriverManager.getConnection(conexPatF);
+            this.conn = DriverManager.getConnection(conexPat);
             System.out.println("Conectado");
         }catch(Exception ex){
             System.err.println("Problemas al conectar se " + ex);
@@ -40,6 +40,7 @@ public class Conexion {
         try {
             PreparedStatement pstm=Conectar().prepareStatement(Sentencia);
             pstm.execute();
+            Desconectar();
             return 1;
         }catch (SQLException e) {
             System.out.println(e);
@@ -47,7 +48,8 @@ public class Conexion {
         }
 
     }
-    
+              
+
     public int EjecutarComandoSQL(PreparedStatement Sentencia){
         try {
             PreparedStatement pstm= Sentencia;
@@ -65,6 +67,7 @@ public class Conexion {
                 PreparedStatement pstm=Conectar().prepareStatement(Sentencia);
                 pstm.execute();
                 ResultSet Resultado=pstm.executeQuery();
+                Desconectar();
                 return Resultado;
             }catch (SQLException e) {
                 System.out.println(e);

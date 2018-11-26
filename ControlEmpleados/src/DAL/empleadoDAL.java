@@ -5,9 +5,14 @@
  */
 package DAL;
 import BL.empleadoBL;
+import java.io.IOException;
+import java.io.InputStream;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.*;
+import sun.misc.IOUtils;
 /**
  *
  * @author Christian
@@ -33,6 +38,27 @@ public class empleadoDAL {
                 + "fechaRet='"+objemp.getfechaRet()+"', turno='"+objemp.getturno()+"' where id='"+objemp.getId());
         con.Desconectar();
         return ComandoEjecutado;
+    }
+    
+    public empleadoBL BuscarEmpleado(int id) throws IOException{
+        empleadoBL empleado = new empleadoBL();
+        try {
+            
+            Conexion objConexion= new Conexion();
+            ResultSet Resultado=objConexion.EjecutarSentenciaSQL("SELECT * FROM Empleados where Id="+id);
+            if(Resultado.next()){
+                empleado.setId(Resultado.getInt(1));
+                empleado.setnombreEmp(Resultado.getString(2));
+                byte[] bytes = Resultado.getBytes(3);
+                empleado.setfoto(bytes);
+                
+                
+                
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(empleadoDAL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return empleado;
     }
     
     public DefaultTableModel CargarDatos(){
