@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 public class Conexion {
 
      String conexion = "jdbc:sqlite:C:\\Users\\Christian\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
-     String conexMontalvo = "conexion";
+     String conexMontalvo = "jdbc:sqlite:C:\\Users\\y2jmo\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
      String conexPatF = "jdbc:sqlite:C:\\ControlEmpleados.s3db";
      String conexPat = "jdbc:sqlite:C:\\BD\\ControlEmpleados.s3db";
      String conexShari = "jdbc:sqlite:C:\\Users\\shari\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\ControlEmpleados.s3db";
@@ -55,6 +55,7 @@ public class Conexion {
     public int EjecutarComandoSQL(PreparedStatement Sentencia){
         try {
             PreparedStatement pstm= Sentencia;
+   
             pstm.execute();
             return 1;
         }catch (SQLException e) {
