@@ -109,8 +109,6 @@ public class Login extends javax.swing.JFrame {
     private void lgn(){        
         try{
             String sql = "select * from Admins where usuario=? and password=?";
-            objBl.setUsuario(txtUsuario.getText());
-            objBl.setContrasena(txtContrasena.getText());
             
             PreparedStatement pst = connection.prepareStatement(sql);
             pst.setString(1,txtUsuario.getText());
