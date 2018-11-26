@@ -4,7 +4,6 @@
  * and open the template in the editor.
  */
 package GUI;
-import BL.Clase;
 import DAL.*;
 import java.sql.*;
 import javax.swing.JOptionPane;
@@ -13,7 +12,7 @@ import javax.swing.JOptionPane;
  * @author y2jmo
  */
 public class Login extends javax.swing.JFrame {
-    Clase objBl = new Clase();
+    //_Clase objBl = new Clase();
     Connection connection = null;
     Conexion connDAL = new Conexion();
     /**
