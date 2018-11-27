@@ -13,6 +13,7 @@ import DAL.Conexion;
 import BL.empleadoBL;
 import DAL.empleadoDAL;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,8 +22,10 @@ import java.util.Date;
 import static java.util.Locale.filter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 /**
@@ -36,6 +39,9 @@ public class GestionEmpleados extends javax.swing.JFrame {
 
 empleadoBL objempBL = new empleadoBL();
     empleadoDAL objempDAL = new empleadoDAL();
+    
+    private JPanel contentPane;
+    File fichero = null;
     /**
      * Creates new form Add_Employed
      */
@@ -44,24 +50,7 @@ empleadoBL objempBL = new empleadoBL();
 
         ActualizarEmpleado();        
     }
-    
-    String ImagePath = null;
-    
-    public ImageIcon ResizeImage(String imagePath, byte[] pic){
-        
-        ImageIcon myImage = null;
-        
-        if(imagePath != null){
-            myImage = new ImageIcon(imagePath);
-        }else{
-            myImage = new ImageIcon(pic);
-        }
-        
-        Image img = myImage.getImage();
-        Image img2 = img.getScaledInstance(lbLoadImage.getWidth(), lbLoadImage.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon image = new ImageIcon(img2);
-        return image;        
-    }
+      
     
     public void CleanData(){
         txtNombre.setText("");
@@ -70,12 +59,13 @@ empleadoBL objempBL = new empleadoBL();
         dtIngreso.setDate(null);
         dtRetiro.setDate(null);
         cboTurno.setSelectedIndex(0);        
+        txtFoto.setText("");
+        lbLoadImage.setIcon(null);
                 
     }
     
     public empleadoBL RecolectarDatos(){            
-        
-      //  try {
+              
             int id = Integer.parseInt(txtId.getText());
             String fechaIngreso = dtIngreso.getDate().toString();
             String fechaRetiro = dtRetiro.getDate().toString();
@@ -99,18 +89,8 @@ empleadoBL objempBL = new empleadoBL();
             objempBL.setfechaIng(fechaIngreso);
             objempBL.setfechaRet(fechaRetiro);
             objempBL.setturno(turno);
-            
-            
-            
-          //  InputStream img = new FileInputStream(new File(ImagePath));
-           // objempBL.setfoto(img);
-            
-       // } catch (Exception ex) {
-       
-       
-        //    Logger.getLogger(GestionEmpleados.class.getName()).log(Level.SEVERE, null, ex);
-        //}
-       
+            objempBL.setfoto(txtFoto.getText());
+                                
         
         return objempBL;
     }
@@ -149,6 +129,8 @@ empleadoBL objempBL = new empleadoBL();
         btnLimpiar = new javax.swing.JButton();
         txtId = new javax.swing.JTextField();
         lbLoadImage = new javax.swing.JLabel();
+        jTextField1 = new javax.swing.JTextField();
+        txtFoto = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Generar Empleado");
@@ -249,6 +231,8 @@ empleadoBL objempBL = new empleadoBL();
             }
         });
 
+        jTextField1.setText("jTextField1");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -259,7 +243,9 @@ empleadoBL objempBL = new empleadoBL();
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnSelectImage, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                            .addComponent(lbLoadImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lbLoadImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFoto))
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -305,37 +291,41 @@ empleadoBL objempBL = new empleadoBL();
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel2))
+                                .addGap(24, 24, 24)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel3))
+                                .addGap(27, 27, 27)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(dtIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel4))
+                                .addGap(24, 24, 24))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addComponent(lbLoadImage, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(18, 18, 18)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnSelectImage)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                .addComponent(dtRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jLabel5)))
+                        .addGap(36, 36, 36)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addGap(24, 24, 24)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel3))
-                        .addGap(27, 27, 27)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dtIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(24, 24, 24))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lbLoadImage, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSelectImage)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(dtRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(jLabel5)))
-                .addGap(36, 36, 36)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel6)
-                    .addComponent(cboTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(jLabel6)
+                            .addComponent(cboTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(txtFoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
@@ -353,6 +343,7 @@ empleadoBL objempBL = new empleadoBL();
 
     private void tbEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbEmpleadosMouseClicked
         // TODO add your handling code here:
+         BufferedImage img = null;
           int row = tbEmpleados.getSelectedRow();
         JTable target = (JTable)evt.getSource();
         txtId.setText(target.getValueAt(row,0).toString());
@@ -360,7 +351,14 @@ empleadoBL objempBL = new empleadoBL();
         cboSexo.setSelectedItem(target.getValueAt(row,3));
         dtIngreso.setDate(new Date(target.getValueAt(row,4).toString()));
         dtRetiro.setDate(new Date(target.getValueAt(row,5).toString()));
-        cboTurno.setSelectedItem(target.getValueAt(row,6));               
+        cboTurno.setSelectedItem(target.getValueAt(row,6));  
+        String r = target.getValueAt(row, 2).toString();
+        txtFoto.setText(r);
+        ImageIcon icon = new ImageIcon(r);
+        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(lbLoadImage.getWidth(), lbLoadImage.getHeight(), Image.SCALE_SMOOTH));
+        lbLoadImage.setText(null);
+        lbLoadImage.setIcon(icono);
+        
     }//GEN-LAST:event_tbEmpleadosMouseClicked
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -375,22 +373,21 @@ empleadoBL objempBL = new empleadoBL();
     }//GEN-LAST:event_txtIdActionPerformed
 
     private void btnSelectImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectImageActionPerformed
-        // TODO add your handling code here:
-        JFileChooser file = new JFileChooser();
-        file.setCurrentDirectory(new File(System.getProperty("user.home")));
+         JFileChooser file = new JFileChooser();
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.jpg", "jpg");
+        file.setFileFilter(filtro);
         
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.images","jpg","png");
-        file.addChoosableFileFilter(filter);
-        int result = file.showSaveDialog(null);
+        int seleccion = file.showOpenDialog(contentPane);
         
-        if(result == JFileChooser.APPROVE_OPTION){
-            File selectedFile = file.getSelectedFile();
-            String path = selectedFile.getAbsolutePath();
-            lbLoadImage.setIcon(ResizeImage(path, null));
-        }else{
-            System.out.println("No has seleccionado una imagen");
+        if(seleccion == JFileChooser.APPROVE_OPTION){
+            fichero = file.getSelectedFile();
+            txtFoto.setText(fichero.getAbsolutePath());
+            ImageIcon icon = new ImageIcon(fichero.toString());
+            System.out.print(fichero.getName());
+            Icon icono = new ImageIcon(icon.getImage().getScaledInstance(lbLoadImage.getWidth(), lbLoadImage.getHeight(), Image.SCALE_DEFAULT));
+            lbLoadImage.setText(null);
+            lbLoadImage.setIcon(icono);
         }
-        
         
     }//GEN-LAST:event_btnSelectImageActionPerformed
 
@@ -470,9 +467,11 @@ empleadoBL objempBL = new empleadoBL();
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTextField jTextField1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker3;
     private javax.swing.JLabel lbLoadImage;
     private javax.swing.JTable tbEmpleados;
+    private javax.swing.JTextField txtFoto;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
