@@ -1,90 +1,24 @@
 package GUI;
 
-
-
-
-import DAL.Conexion;
-
 /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-import BL.empleadoBL;
-import DAL.empleadoDAL;
-import java.awt.Image;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.InputStream;
-import static java.util.Locale.filter;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.ImageIcon;
-import javax.swing.JFileChooser;
-import javax.swing.JTable;
-import javax.swing.filechooser.FileNameExtensionFilter;
+
 /**
  *
  * @author Christian
- * 
- * 
  */
 public class GestionEmpleados extends javax.swing.JFrame {
-    Conexion conn = new Conexion();
 
-empleadoBL objempBL = new empleadoBL();
-    empleadoDAL objempDAL = new empleadoDAL();
     /**
      * Creates new form Add_Employed
      */
     public GestionEmpleados() {
         initComponents();
+    }
 
-        ActualizarEmpleado();
-        txtId.setVisible(false);
-    }
-    
-    String ImagePath = null;
-    
-    public ImageIcon ResizeImage(String imagePath, byte[] pic){
-        
-        ImageIcon myImage = null;
-        
-        if(imagePath != null){
-            myImage = new ImageIcon(imagePath);
-        }else{
-            myImage = new ImageIcon(pic);
-        }
-        
-        Image img = myImage.getImage();
-        Image img2 = img.getScaledInstance(lbLoadImage.getWidth(), lbLoadImage.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon image = new ImageIcon(img2);
-        return image;        
-    }
-    
-    public empleadoBL RecolectarDatos(){            
-        
-      //  try {
-            int id = Integer.parseInt(txtId.getText());
-            objempBL.setId(id);
-            objempBL.setnombreEmp(txtNombre.getText());
-          //  InputStream img = new FileInputStream(new File(ImagePath));
-           // objempBL.setfoto(img);
-            
-       // } catch (Exception ex) {
-       
-       
-        //    Logger.getLogger(GestionEmpleados.class.getName()).log(Level.SEVERE, null, ex);
-        //}
-       
-        
-        return objempBL;
-    }
-    
-    public void ActualizarEmpleado(){
-        tbEmpleados.setModel(objempDAL.CargarDatos());
-    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -95,16 +29,17 @@ empleadoBL objempBL = new empleadoBL();
     private void initComponents() {
 
         jXDatePicker3 = new org.jdesktop.swingx.JXDatePicker();
-        btnSelectImage = new javax.swing.JButton();
+        panel1 = new java.awt.Panel();
+        jButton1 = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        txtNombre = new javax.swing.JTextField();
+        jTextField1 = new javax.swing.JTextField();
         jLabel3 = new javax.swing.JLabel();
-        cboSexo = new javax.swing.JComboBox<>();
+        jComboBox1 = new javax.swing.JComboBox<>();
         jLabel4 = new javax.swing.JLabel();
-        dtIngreso = new org.jdesktop.swingx.JXDatePicker();
+        jXDatePicker1 = new org.jdesktop.swingx.JXDatePicker();
         jLabel5 = new javax.swing.JLabel();
-        dtRetiro = new org.jdesktop.swingx.JXDatePicker();
+        jXDatePicker2 = new org.jdesktop.swingx.JXDatePicker();
         jLabel6 = new javax.swing.JLabel();
         jComboBox2 = new javax.swing.JComboBox<>();
         jLabel7 = new javax.swing.JLabel();
@@ -113,25 +48,29 @@ empleadoBL objempBL = new empleadoBL();
         jSpinner1 = new javax.swing.JSpinner();
         jLabel9 = new javax.swing.JLabel();
         jSpinner2 = new javax.swing.JSpinner();
-        btnGuardar = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tbEmpleados = new javax.swing.JTable();
-        btnEditar = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
-        btnReporte = new javax.swing.JButton();
-        btnLimpiar = new javax.swing.JButton();
-        txtId = new javax.swing.JTextField();
-        lbLoadImage = new javax.swing.JLabel();
+        jTable1 = new javax.swing.JTable();
+        jButton4 = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        jButton6 = new javax.swing.JButton();
+        jButton7 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Generar Empleado");
 
-        btnSelectImage.setText("Seleccionar Foto");
-        btnSelectImage.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSelectImageActionPerformed(evt);
-            }
-        });
+        javax.swing.GroupLayout panel1Layout = new javax.swing.GroupLayout(panel1);
+        panel1.setLayout(panel1Layout);
+        panel1Layout.setHorizontalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 0, Short.MAX_VALUE)
+        );
+        panel1Layout.setVerticalGroup(
+            panel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 160, Short.MAX_VALUE)
+        );
+
+        jButton1.setText("Seleccionar Foto");
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 18)); // NOI18N
         jLabel1.setText("Datos Generales");
@@ -140,7 +79,7 @@ empleadoBL objempBL = new empleadoBL();
 
         jLabel3.setText("Sexo");
 
-        cboSexo.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino", " " }));
+        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Masculino", "Femenino", " " }));
 
         jLabel4.setText("Fecha de Ingreso");
 
@@ -158,14 +97,9 @@ empleadoBL objempBL = new empleadoBL();
 
         jLabel9.setText("Hora de Salida");
 
-        btnGuardar.setText("Guardar Datos");
-        btnGuardar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnGuardarActionPerformed(evt);
-            }
-        });
+        jButton3.setText("Guardar Datos");
 
-        tbEmpleados.setModel(new javax.swing.table.DefaultTableModel(
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null},
@@ -184,41 +118,24 @@ empleadoBL objempBL = new empleadoBL();
                 return canEdit [columnIndex];
             }
         });
-        tbEmpleados.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tbEmpleadosMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(tbEmpleados);
-        if (tbEmpleados.getColumnModel().getColumnCount() > 0) {
-            tbEmpleados.getColumnModel().getColumn(0).setResizable(false);
-            tbEmpleados.getColumnModel().getColumn(1).setResizable(false);
-            tbEmpleados.getColumnModel().getColumn(2).setResizable(false);
-            tbEmpleados.getColumnModel().getColumn(3).setResizable(false);
-            tbEmpleados.getColumnModel().getColumn(4).setResizable(false);
-            tbEmpleados.getColumnModel().getColumn(5).setResizable(false);
-            tbEmpleados.getColumnModel().getColumn(6).setResizable(false);
+        jScrollPane1.setViewportView(jTable1);
+        if (jTable1.getColumnModel().getColumnCount() > 0) {
+            jTable1.getColumnModel().getColumn(0).setResizable(false);
+            jTable1.getColumnModel().getColumn(1).setResizable(false);
+            jTable1.getColumnModel().getColumn(2).setResizable(false);
+            jTable1.getColumnModel().getColumn(3).setResizable(false);
+            jTable1.getColumnModel().getColumn(4).setResizable(false);
+            jTable1.getColumnModel().getColumn(5).setResizable(false);
+            jTable1.getColumnModel().getColumn(6).setResizable(false);
         }
 
-        btnEditar.setText("Editar Datos");
+        jButton4.setText("Editar Datos");
 
-        btnEliminar.setText("Eliminar Empleado");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
+        jButton5.setText("Eliminar Empleado");
 
-        btnReporte.setText("Generar Reporte");
+        jButton6.setText("Generar Reporte");
 
-        btnLimpiar.setText("Limpiar");
-
-        txtId.setText("0");
-        txtId.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtIdActionPerformed(evt);
-            }
-        });
+        jButton7.setText("Limpiar");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -229,15 +146,11 @@ empleadoBL objempBL = new empleadoBL();
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnSelectImage, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                            .addComponent(lbLoadImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(panel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE))
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(jLabel2)
@@ -251,14 +164,14 @@ empleadoBL objempBL = new empleadoBL();
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
-                                        .addComponent(dtRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(dtIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                                                 .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.LEADING)
@@ -268,46 +181,44 @@ empleadoBL objempBL = new empleadoBL();
                         .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnLimpiar)
+                                .addComponent(jButton7)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnEditar)
+                                .addComponent(jButton4)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnEliminar)
+                                .addComponent(jButton5)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnReporte))
+                                .addComponent(jButton6))
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 815, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
+                        .addComponent(panel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel2))
                         .addGap(24, 24, 24)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel3))
                         .addGap(27, 27, 27)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(dtIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel4))
-                        .addGap(24, 24, 24))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(lbLoadImage, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)))
+                            .addComponent(jXDatePicker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnSelectImage)
+                    .addComponent(jButton1)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(dtRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jXDatePicker2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5)))
                 .addGap(27, 27, 27)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -325,13 +236,13 @@ empleadoBL objempBL = new empleadoBL();
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel9)
                     .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 82, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnGuardar)
-                    .addComponent(btnEditar)
-                    .addComponent(btnEliminar)
-                    .addComponent(btnReporte)
-                    .addComponent(btnLimpiar))
+                    .addComponent(jButton3)
+                    .addComponent(jButton4)
+                    .addComponent(jButton5)
+                    .addComponent(jButton6)
+                    .addComponent(jButton7))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
@@ -339,51 +250,6 @@ empleadoBL objempBL = new empleadoBL();
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void tbEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbEmpleadosMouseClicked
-        // TODO add your handling code here:
-          int row = tbEmpleados.getSelectedRow();
-        JTable target = (JTable)evt.getSource();
-        txtId.setText(target.getValueAt(row,0).toString());
-        txtNombre.setText(target.getValueAt(row,1).toString());                
-    }//GEN-LAST:event_tbEmpleadosMouseClicked
-
-    private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
-        // TODO add your handling code here:
-        objempDAL.Agregar(RecolectarDatos());
-        ActualizarEmpleado();
-    }//GEN-LAST:event_btnGuardarActionPerformed
-
-    private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
-        // TODO add your handling code here:        
-    }//GEN-LAST:event_txtIdActionPerformed
-
-    private void btnSelectImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectImageActionPerformed
-        // TODO add your handling code here:
-        JFileChooser file = new JFileChooser();
-        file.setCurrentDirectory(new File(System.getProperty("user.home")));
-        
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.images","jpg","png");
-        file.addChoosableFileFilter(filter);
-        int result = file.showSaveDialog(null);
-        
-        if(result == JFileChooser.APPROVE_OPTION){
-            File selectedFile = file.getSelectedFile();
-            String path = selectedFile.getAbsolutePath();
-            lbLoadImage.setIcon(ResizeImage(path, null));
-        }else{
-            System.out.println("No has seleccionado una imagen");
-        }
-        
-        
-    }//GEN-LAST:event_btnSelectImageActionPerformed
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-        objempDAL.Eliminar(RecolectarDatos());
-        ActualizarEmpleado();
-        
-    }//GEN-LAST:event_btnEliminarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -424,15 +290,13 @@ empleadoBL objempBL = new empleadoBL();
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnEditar;
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnGuardar;
-    private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnReporte;
-    private javax.swing.JButton btnSelectImage;
-    private javax.swing.JComboBox<String> cboSexo;
-    private org.jdesktop.swingx.JXDatePicker dtIngreso;
-    private org.jdesktop.swingx.JXDatePicker dtRetiro;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
+    private javax.swing.JButton jButton6;
+    private javax.swing.JButton jButton7;
+    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JComboBox<String> jComboBox2;
     private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
@@ -447,10 +311,11 @@ empleadoBL objempBL = new empleadoBL();
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSpinner jSpinner1;
     private javax.swing.JSpinner jSpinner2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTextField jTextField1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker1;
+    private org.jdesktop.swingx.JXDatePicker jXDatePicker2;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker3;
-    private javax.swing.JLabel lbLoadImage;
-    private javax.swing.JTable tbEmpleados;
-    private javax.swing.JTextField txtId;
-    private javax.swing.JTextField txtNombre;
+    private java.awt.Panel panel1;
     // End of variables declaration//GEN-END:variables
 }

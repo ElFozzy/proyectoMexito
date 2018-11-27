@@ -1,8 +1,5 @@
 package GUI;
 
-
-
-
 import DAL.Conexion;
 
 /*
@@ -27,8 +24,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
  * @author Christian
- * 
- * 
  */
 public class GestionEmpleados extends javax.swing.JFrame {
     Conexion conn = new Conexion();
@@ -73,8 +68,6 @@ empleadoBL objempBL = new empleadoBL();
            // objempBL.setfoto(img);
             
        // } catch (Exception ex) {
-       
-       
         //    Logger.getLogger(GestionEmpleados.class.getName()).log(Level.SEVERE, null, ex);
         //}
        
