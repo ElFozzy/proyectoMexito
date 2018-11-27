@@ -16,10 +16,10 @@ public class empleadoBL {
     public int id;
     public String nombreEmp;
     public byte[] foto;
-    public boolean sexo;
+    public String sexo;
     public String fechaIng;
     public String fechaRet;
-    public boolean turno;
+    public String turno;
     
     public int getId(){
         return id;        
@@ -45,11 +45,11 @@ public class empleadoBL {
         this.foto = foto;
     }
     
-    public boolean getsexo(){
+    public String getsexo(){
         return sexo;
     }
     
-    public void setsexo(boolean sexo){
+    public void setsexo(String sexo){
         this.sexo = sexo;
     }
     
@@ -69,11 +69,11 @@ public class empleadoBL {
         this.fechaRet = fechaRet;
     }
     
-    public boolean getturno(){
+    public String getturno(){
         return turno;
     }
 
-    public void setturno(boolean turno){
+    public void setturno(String turno){
         this.turno = turno;
     }
 }
