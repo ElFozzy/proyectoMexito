@@ -20,7 +20,7 @@ import sun.misc.IOUtils;
 public class empleadoDAL {
     Conexion con = new Conexion();
     
-    public int Agregar (empleadoBL objemp){
+  /*  public int Agregar (empleadoBL objemp){
         int ComandoEjecutado = con.EjecutarComandoSQL("Insert into Empleados (nombreEmp) values ('"+objemp.getnombreEmp()+"')");
         con.Desconectar();
         return ComandoEjecutado;
@@ -66,11 +66,11 @@ public class empleadoDAL {
     }catch(SQLException e){
     return null;
     }
-    }    
-    /*
+    }   */ 
+    
     public int Agregar (empleadoBL objemp){
-        int ComandoEjecutado = con.EjecutarComandoSQL("Insert into Empleados (nombreEmp, foto, sexo, fechaIng, fechaRet, turno) "
-                + "values  ('"+objemp.getnombreEmp()+"','"+objemp.getfoto()+"','"+objemp.getsexo()+"','"+objemp.getfechaIng()+"','"+objemp.getfechaRet()+"','"+objemp.getturno()+"');");
+        int ComandoEjecutado = con.EjecutarComandoSQL("Insert into Empleados (nombreEmp, sexo, fechaIng, fechaRet, turno) "
+                + "values  ('"+objemp.getnombreEmp()+"','"+objemp.getsexo()+"','"+objemp.getfechaIng()+"','"+objemp.getfechaRet()+"','"+objemp.getturno()+"');");
         con.Desconectar();
         return ComandoEjecutado;
     }
@@ -82,12 +82,12 @@ public class empleadoDAL {
     }
     
     public int Modificar (empleadoBL objemp){
-        int ComandoEjecutado = con.EjecutarComandoSQL("Update Empleados set nombreEmp='"+objemp.getnombreEmp()+"', foto='"+objemp.getfoto()+"', sexo='"+objemp.getsexo()+"', fechaIng='"+objemp.getfechaIng()+"', "
-                + "fechaRet='"+objemp.getfechaRet()+"', turno='"+objemp.getturno()+"' where id='"+objemp.getId());
+        int ComandoEjecutado = con.EjecutarComandoSQL("Update Empleados set nombreEmp='"+objemp.getnombreEmp()+"', sexo='"+objemp.getsexo()+"', fechaIng='"+objemp.getfechaIng()+"', "
+                +"fechaRet='"+objemp.getfechaRet()+"', turno='"+objemp.getturno()+"' where id='"+objemp.getId()+"'");
         con.Desconectar();
         return ComandoEjecutado;
     }
-    */
+    
     public empleadoBL BuscarEmpleado(int id) throws IOException{
         empleadoBL empleado = new empleadoBL();
         try {
@@ -108,13 +108,13 @@ public class empleadoDAL {
         }
         return empleado;
     }
-    /*
+    
     public DefaultTableModel CargarDatos(){
         
         DefaultTableModel dtm =new DefaultTableModel(
         new Object [][] {},
         new String [] {
-         "id","nombreEmp","foto","sexo","fechaIng","fechaRet","turno"
+         "id","Nombre Empleado","Foto","Sexo","FechaIngreso","FechaRetiro","Turno"
         }
        ){ @Override
         public boolean isCellEditable(int row, int column) {
@@ -133,8 +133,8 @@ public class empleadoDAL {
         Resultado.getString(3),
         Resultado.getString(4),
         Resultado.getString(5),
-        Resultado.getString(6),
-        Resultado.getString(7)
+        Resultado.getString(6),        
+        Resultado.getString(8)
             
     };
         // Agregar Datos al JTable
@@ -144,5 +144,5 @@ public class empleadoDAL {
     }catch(SQLException e){
     return null;
     }
-    }*/
+    }
 }
