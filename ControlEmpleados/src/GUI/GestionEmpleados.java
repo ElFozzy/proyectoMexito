@@ -1,4 +1,4 @@
-package GUI;
+  package GUI;
 
 
 
@@ -436,6 +436,10 @@ empleadoBL objempBL = new empleadoBL();
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
             java.util.logging.Logger.getLogger(GestionEmpleados.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
         //</editor-fold>
