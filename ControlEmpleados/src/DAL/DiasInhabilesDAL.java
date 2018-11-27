@@ -12,6 +12,4 @@ package DAL;
 public class DiasInhabilesDAL {
     Conexion conexion = new Conexion();
     
-    
-    
 }
