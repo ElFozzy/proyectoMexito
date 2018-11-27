@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package BL;
+package DAL;
 
 /**
  *
- * @author y2jmo
+ * @author Daniel
  */
-public class Clase {
+public class DiasInhabilesDAL {
+    Conexion conexion = new Conexion();
     
 }

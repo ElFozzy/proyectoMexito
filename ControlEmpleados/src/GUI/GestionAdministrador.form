@@ -6,6 +6,10 @@
     <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
       <Color blue="ff" green="ff" red="ff" type="rgb"/>
     </Property>
+    <Property name="location" type="java.awt.Point" editor="org.netbeans.beaninfo.editors.PointEditor">
+      <Point value="[450, 150]"/>
+    </Property>
+    <Property name="resizable" type="boolean" value="false"/>
   </Properties>
   <SyntheticProperties>
     <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
@@ -30,13 +34,12 @@
               <EmptySpace max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" max="-2" attributes="0">
                   <Group type="102" alignment="0" attributes="0">
-                      <Component id="btnBuscar" min="-2" pref="91" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="18" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="109" max="-2" attributes="0"/>
+                      <Component id="btnGuardar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton2" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnModificar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="jButton3" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnEliminar" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
                   <Group type="102" alignment="0" attributes="0">
@@ -50,19 +53,19 @@
                       </Group>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" max="-2" attributes="0">
-                          <Component id="txtNum" alignment="0" min="-2" pref="35" max="-2" attributes="0"/>
                           <Group type="102" alignment="0" attributes="0">
-                              <Component id="jRadioButton1" min="-2" max="-2" attributes="0"/>
+                              <Component id="rbtnGeneral" min="-2" max="-2" attributes="0"/>
                               <EmptySpace pref="27" max="32767" attributes="0"/>
-                              <Component id="jRadioButton2" min="-2" max="-2" attributes="0"/>
+                              <Component id="rbtnContador" min="-2" max="-2" attributes="0"/>
                           </Group>
-                          <Component id="txtCorreo" max="32767" attributes="0"/>
-                          <Component id="jTextField1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtPassword" max="32767" attributes="0"/>
+                          <Component id="txtUsuario" alignment="0" max="32767" attributes="0"/>
+                          <Component id="txtID" alignment="0" min="-2" pref="44" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <Component id="jScrollPane1" alignment="0" pref="0" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace pref="26" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -74,34 +77,33 @@
               <EmptySpace max="32767" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel3" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtNum" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtID" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jTextField1" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtUsuario" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
                   <Component id="jLabel6" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="txtCorreo" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="txtPassword" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
                   <Component id="jLabel4" alignment="0" min="-2" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="3" attributes="0">
-                      <Component id="jRadioButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                      <Component id="jRadioButton2" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbtnGeneral" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="rbtnContador" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
               </Group>
               <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
               <Component id="jScrollPane1" min="-2" pref="159" max="-2" attributes="0"/>
               <EmptySpace type="unrelated" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="btnBuscar" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton2" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton3" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnGuardar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnModificar" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="btnEliminar" alignment="3" min="-2" max="-2" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -127,12 +129,7 @@
         <Property name="text" type="java.lang.String" value="Num. Administrador:"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtNum">
-      <Properties>
-        <Property name="editable" type="boolean" value="false"/>
-      </Properties>
-    </Component>
-    <Component class="javax.swing.JTextField" name="jTextField1">
+    <Component class="javax.swing.JTextField" name="txtUsuario">
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane1">
       <AuxValues>
@@ -141,7 +138,7 @@
 
       <Layout class="org.netbeans.modules.form.compat2.layouts.support.JScrollPaneSupportLayout"/>
       <SubComponents>
-        <Component class="javax.swing.JTable" name="jTable1">
+        <Component class="javax.swing.JTable" name="tblAdmin">
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="4" rowCount="8">
@@ -179,6 +176,9 @@
               <TableHeader reorderingAllowed="true" resizingAllowed="true"/>
             </Property>
           </Properties>
+          <Events>
+            <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="tblAdminMouseClicked"/>
+          </Events>
         </Component>
       </SubComponents>
     </Container>
@@ -192,45 +192,48 @@
         <Property name="text" type="java.lang.String" value="Contrase&#xf1;a :"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="btnBuscar">
+    <Component class="javax.swing.JTextField" name="txtPassword">
+    </Component>
+    <Component class="javax.swing.JRadioButton" name="rbtnGeneral">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Buscar"/>
+        <Property name="text" type="java.lang.String" value="Admin.General"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnBuscarActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="rbtnGeneralActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JTextField" name="txtCorreo">
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="jRadioButton1">
+    <Component class="javax.swing.JRadioButton" name="rbtnContador">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Admin. General"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jRadioButton1ActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JRadioButton" name="jRadioButton2">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Adm. Contador"/>
+        <Property name="text" type="java.lang.String" value="Admin.Contador"/>
       </Properties>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
+    <Component class="javax.swing.JButton" name="btnGuardar">
       <Properties>
         <Property name="text" type="java.lang.String" value="Guardar Datos"/>
       </Properties>
       <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnGuardarActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton2">
+    <Component class="javax.swing.JButton" name="btnModificar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Editar Datos"/>
+        <Property name="text" type="java.lang.String" value="Modificar"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificarActionPerformed"/>
+      </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="jButton3">
+    <Component class="javax.swing.JButton" name="btnEliminar">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Eliminar Admin"/>
+        <Property name="text" type="java.lang.String" value="Eliminar Adm"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEliminarActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="txtID">
+      <Properties>
+        <Property name="editable" type="boolean" value="false"/>
       </Properties>
     </Component>
   </SubComponents>
