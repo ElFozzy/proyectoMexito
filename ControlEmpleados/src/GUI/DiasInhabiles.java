@@ -20,6 +20,7 @@ public class DiasInhabiles extends javax.swing.JFrame {
      */
     public DiasInhabiles() {
         initComponents();
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
         
     }
 
