@@ -6,6 +6,7 @@
 package controlempleados;
 
 import DAL.Conexion;
+import GUI.*;
 
 /**
  *
@@ -20,6 +21,8 @@ public class ControlEmpleados {
         // TODO code application logic here
         Conexion con = new Conexion();
         con.Conectar();
+        Login login = new Login();
+        login.setVisible(true);
     }
     
 }

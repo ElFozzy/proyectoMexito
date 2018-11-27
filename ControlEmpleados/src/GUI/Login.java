@@ -118,7 +118,10 @@ public class Login extends javax.swing.JFrame {
             while (rs.next()){
                 count = count + 1;
             }if(count == 1){
-                JOptionPane.showMessageDialog(null, "Logged");           
+                //JOptionPane.showMessageDialog(null, "Logged"); 
+                Menu menu = new Menu();
+                menu.setVisible(rootPaneCheckingEnabled);
+                this.setVisible(false);
             }else if(count>1){
                 JOptionPane.showMessageDialog(null, "Duplicado"); 
             }else{
