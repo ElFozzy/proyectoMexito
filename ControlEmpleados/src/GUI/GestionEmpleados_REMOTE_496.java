@@ -1,8 +1,5 @@
 package GUI;
 
-
-
-
 import DAL.Conexion;
 
 /*
@@ -17,7 +14,6 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.util.Date;
 import static java.util.Locale.filter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -28,8 +24,6 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
  * @author Christian
- * 
- * 
  */
 public class GestionEmpleados extends javax.swing.JFrame {
     Conexion conn = new Conexion();
@@ -42,7 +36,8 @@ empleadoBL objempBL = new empleadoBL();
     public GestionEmpleados() {
         initComponents();
 
-        ActualizarEmpleado();        
+        ActualizarEmpleado();
+        txtId.setVisible(false);
     }
     
     String ImagePath = null;
@@ -63,51 +58,16 @@ empleadoBL objempBL = new empleadoBL();
         return image;        
     }
     
-    public void CleanData(){
-        txtNombre.setText("");
-        txtId.setText("0");
-        cboSexo.setSelectedIndex(0);
-        dtIngreso.setDate(null);
-        dtRetiro.setDate(null);
-        cboTurno.setSelectedIndex(0);        
-                
-    }
-    
     public empleadoBL RecolectarDatos(){            
         
       //  try {
             int id = Integer.parseInt(txtId.getText());
-            String fechaIngreso = dtIngreso.getDate().toString();
-            String fechaRetiro = dtRetiro.getDate().toString();
-            String sexo;
-            String turno;
-            if(cboSexo.getSelectedItem().toString().equals("Masculino")){
-                sexo = "Masculino";
-            }else{
-                sexo = "Femenino";
-            }
-            
-            if(cboTurno.getSelectedItem().toString().equals("Matutino")){
-                turno = "Matutino";
-            }else{
-                turno = "Vespertino";
-            }
-            
             objempBL.setId(id);
             objempBL.setnombreEmp(txtNombre.getText());
-            objempBL.setsexo(sexo);
-            objempBL.setfechaIng(fechaIngreso);
-            objempBL.setfechaRet(fechaRetiro);
-            objempBL.setturno(turno);
-            
-            
-            
           //  InputStream img = new FileInputStream(new File(ImagePath));
            // objempBL.setfoto(img);
             
        // } catch (Exception ex) {
-       
-       
         //    Logger.getLogger(GestionEmpleados.class.getName()).log(Level.SEVERE, null, ex);
         //}
        
@@ -139,7 +99,13 @@ empleadoBL objempBL = new empleadoBL();
         jLabel5 = new javax.swing.JLabel();
         dtRetiro = new org.jdesktop.swingx.JXDatePicker();
         jLabel6 = new javax.swing.JLabel();
-        cboTurno = new javax.swing.JComboBox<>();
+        jComboBox2 = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        jComboBox3 = new javax.swing.JComboBox<>();
+        jLabel8 = new javax.swing.JLabel();
+        jSpinner1 = new javax.swing.JSpinner();
+        jLabel9 = new javax.swing.JLabel();
+        jSpinner2 = new javax.swing.JSpinner();
         btnGuardar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
         tbEmpleados = new javax.swing.JTable();
@@ -175,7 +141,15 @@ empleadoBL objempBL = new empleadoBL();
 
         jLabel6.setText("Turno");
 
-        cboTurno.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matutino", "Vespertino" }));
+        jComboBox2.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Matutino", "Vespertino" }));
+
+        jLabel7.setText("Día de Descanso");
+
+        jComboBox3.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Lunes", "Martes", "Miércoles", "Jueves ", "Viernes", "Sábado", "Domingo" }));
+
+        jLabel8.setText("Hora de Entrada");
+
+        jLabel9.setText("Hora de Salida");
 
         btnGuardar.setText("Guardar Datos");
         btnGuardar.addActionListener(new java.awt.event.ActionListener() {
@@ -220,11 +194,6 @@ empleadoBL objempBL = new empleadoBL();
         }
 
         btnEditar.setText("Editar Datos");
-        btnEditar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEditarActionPerformed(evt);
-            }
-        });
 
         btnEliminar.setText("Eliminar Empleado");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
@@ -236,11 +205,6 @@ empleadoBL objempBL = new empleadoBL();
         btnReporte.setText("Generar Reporte");
 
         btnLimpiar.setText("Limpiar");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
-            }
-        });
 
         txtId.setText("0");
         txtId.addActionListener(new java.awt.event.ActionListener() {
@@ -272,8 +236,11 @@ empleadoBL objempBL = new empleadoBL();
                                     .addComponent(jLabel2)
                                     .addComponent(jLabel3)
                                     .addComponent(jLabel4)
+                                    .addComponent(jLabel8)
                                     .addComponent(jLabel6)
-                                    .addComponent(jLabel5))
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel7))
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(layout.createSequentialGroup()
@@ -283,14 +250,17 @@ empleadoBL objempBL = new empleadoBL();
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                             .addComponent(dtIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE)
                                             .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 107, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(cboTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                            .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 409, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                                                .addComponent(jSpinner1, javax.swing.GroupLayout.Alignment.LEADING)
+                                                .addComponent(jSpinner2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 114, Short.MAX_VALUE)))
                                         .addGap(0, 143, Short.MAX_VALUE))))))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(8, 8, 8)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
-                                .addGap(0, 0, Short.MAX_VALUE)
                                 .addComponent(btnLimpiar)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -299,8 +269,8 @@ empleadoBL objempBL = new empleadoBL();
                                 .addGap(18, 18, 18)
                                 .addComponent(btnEliminar)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnReporte)))
-                        .addContainerGap())))
+                                .addComponent(btnReporte))
+                            .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 815, javax.swing.GroupLayout.PREFERRED_SIZE)))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -332,11 +302,23 @@ empleadoBL objempBL = new empleadoBL();
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(dtRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addComponent(jLabel5)))
-                .addGap(36, 36, 36)
+                .addGap(27, 27, 27)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(jComboBox3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(cboTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(73, 73, 73)
+                    .addComponent(jComboBox2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(26, 26, 26)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel8)
+                    .addComponent(jSpinner1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(24, 24, 24)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel9)
+                    .addComponent(jSpinner2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 70, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnEditar)
@@ -345,7 +327,7 @@ empleadoBL objempBL = new empleadoBL();
                     .addComponent(btnLimpiar))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addContainerGap())
         );
 
         pack();
@@ -356,18 +338,13 @@ empleadoBL objempBL = new empleadoBL();
           int row = tbEmpleados.getSelectedRow();
         JTable target = (JTable)evt.getSource();
         txtId.setText(target.getValueAt(row,0).toString());
-        txtNombre.setText(target.getValueAt(row,1).toString());    
-        cboSexo.setSelectedItem(target.getValueAt(row,3));
-        dtIngreso.setDate(new Date(target.getValueAt(row,4).toString()));
-        dtRetiro.setDate(new Date(target.getValueAt(row,5).toString()));
-        cboTurno.setSelectedItem(target.getValueAt(row,6));               
+        txtNombre.setText(target.getValueAt(row,1).toString());                
     }//GEN-LAST:event_tbEmpleadosMouseClicked
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         objempDAL.Agregar(RecolectarDatos());
         ActualizarEmpleado();
-        CleanData();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void txtIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIdActionPerformed
@@ -398,21 +375,8 @@ empleadoBL objempBL = new empleadoBL();
         // TODO add your handling code here:
         objempDAL.Eliminar(RecolectarDatos());
         ActualizarEmpleado();
-        CleanData();
         
     }//GEN-LAST:event_btnEliminarActionPerformed
-
-    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
-        // TODO add your handling code here:
-        CleanData();
-    }//GEN-LAST:event_btnLimpiarActionPerformed
-
-    private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
-        // TODO add your handling code here:
-        objempDAL.Modificar(RecolectarDatos());
-        ActualizarEmpleado();
-        CleanData();
-    }//GEN-LAST:event_btnEditarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -460,16 +424,22 @@ empleadoBL objempBL = new empleadoBL();
     private javax.swing.JButton btnReporte;
     private javax.swing.JButton btnSelectImage;
     private javax.swing.JComboBox<String> cboSexo;
-    private javax.swing.JComboBox<String> cboTurno;
     private org.jdesktop.swingx.JXDatePicker dtIngreso;
     private org.jdesktop.swingx.JXDatePicker dtRetiro;
+    private javax.swing.JComboBox<String> jComboBox2;
+    private javax.swing.JComboBox<String> jComboBox3;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JSpinner jSpinner1;
+    private javax.swing.JSpinner jSpinner2;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker3;
     private javax.swing.JLabel lbLoadImage;
     private javax.swing.JTable tbEmpleados;

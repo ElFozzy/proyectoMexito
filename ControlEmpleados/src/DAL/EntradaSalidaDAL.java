@@ -28,7 +28,7 @@ public class EntradaSalidaDAL {
     public boolean EntradaPrevia(int id){
         try {
             Conexion objConexion= new Conexion();
-            ResultSet Resultado=objConexion.EjecutarSentenciaSQL("SELECT * FROM Ent_Sal where idEmp='"+id+"' AND fecha = date('now')");
+            ResultSet Resultado=objConexion.EjecutarSentenciaSQL("SELECT * FROM Ent_Sal where idEmp='"+id+"' AND fecha = date(\"now\") AND tipo=false");
             return Resultado.next();
         } catch (SQLException ex) {
             Logger.getLogger(EntradaSalidaDAL.class.getName()).log(Level.SEVERE, null, ex);
