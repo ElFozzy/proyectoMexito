@@ -127,6 +127,8 @@ public class DiasInhabiles extends javax.swing.JFrame {
         
         DateFormat mesFormat = new SimpleDateFormat("MM");
         diaInhabil.setMes(Integer.parseInt(diaFormat.format(date)));
+        if(chkDiaIn.isSelected())
+            diasInhabiles.Agregar(diaInhabil);
         
         
     }//GEN-LAST:event_btnGuardarActionPerformed

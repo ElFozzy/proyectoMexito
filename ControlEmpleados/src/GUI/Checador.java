@@ -5,8 +5,10 @@
  */
 package GUI;
 
+import BL.DiasInhabilesBL;
 import BL.EntradaSalidaBL;
 import BL.empleadoBL;
+import DAL.DiasInhabilesDAL;
 import DAL.EntradaSalidaDAL;
 import DAL.empleadoDAL;
 import com.github.sarxos.webcam.Webcam;
@@ -49,6 +51,7 @@ import javax.swing.Timer;
 public class Checador extends javax.swing.JFrame {
     Date fechaActual;
     Webcam webcam;
+    DiasInhabilesDAL dias = new DiasInhabilesDAL();
     /**
      * Creates new form Checador
      */
@@ -93,37 +96,46 @@ public class Checador extends javax.swing.JFrame {
                     
                     Result result = new MultiFormatReader().decode(bitmap);
                     String re = result.getText();
+                    
+                    DiasInhabilesBL dia = new DiasInhabilesBL();
+                    DateFormat diaFormat = new SimpleDateFormat("dd");
+                    //dia.setDia(Integer.parseInt(diaFormat.format(fechaActual)));
+                    //dia.setDia(10);
+                    DateFormat mesFormat = new SimpleDateFormat("MM");
+                    dia.setMes(Integer.parseInt(diaFormat.format(fechaActual)));
+                    //dia.setMes(11);
+
                     if(re != null){
-                        
+                        if(!dias.IsDiaInhabil(dia.getDia(),dia.getMes())){
                         empleadoDAL empleados = new empleadoDAL();
-        empleadoBL empleado;
-        try {
-            empleado = empleados.BuscarEmpleado(Integer.parseInt(re));
-            lblNombre.setText(empleado.getnombreEmp());
+                        empleadoBL empleado;
+                        try {
+                            empleado = empleados.BuscarEmpleado(Integer.parseInt(re));
+                            lblNombre.setText(empleado.getnombreEmp());
                        
-            DateFormat formatobd = new SimpleDateFormat("dd/MM/yyyy");
+                            DateFormat formatobd = new SimpleDateFormat("dd/MM/yyyy");
 
-            EntradaSalidaDAL entradasSalidas = new EntradaSalidaDAL();
-            EntradaSalidaBL entSal = new EntradaSalidaBL();
-            entSal.setIdEmpleado(empleado.getId());
-            entSal.setFecha(formatobd.format(fechaActual));
-            entSal.setHora(new java.sql.Time(fechaActual.getTime()));
-            if(rdEntrada.isSelected()){
+                            EntradaSalidaDAL entradasSalidas = new EntradaSalidaDAL();
+                            EntradaSalidaBL entSal = new EntradaSalidaBL();
+                            entSal.setIdEmpleado(empleado.getId());
+                            entSal.setFecha(formatobd.format(fechaActual));
+                            entSal.setHora(new java.sql.Time(fechaActual.getTime()));
+                            if(rdEntrada.isSelected()){
 
-                lblMensaje.setText("Entrada Registrada");
-                entSal.setTipo(0);
-            }else if(rdEntrada.isSelected()){
-                entSal.setTipo(1);
-                lblMensaje.setText("Salida Registrada");
-            }
-            entradasSalidas.AgregarEntrada(entSal);
+                                lblMensaje.setText("Entrada Registrada");
+                                entSal.setTipo(0);
+                            }else if(rdEntrada.isSelected()){
+                                entSal.setTipo(1);
+                                lblMensaje.setText("Salida Registrada");
+                            }
+                            entradasSalidas.AgregarEntrada(entSal);
 
-            lblIcono.setVisible(true); 
-            lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/002-checked.png")));
-            lblMensaje.setVisible(true);
-        } catch (IOException ex) {
-            Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
-        }
+                            lblIcono.setVisible(true); 
+                            lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/002-checked.png")));
+                            lblMensaje.setVisible(true);
+                    } catch (IOException ex) {
+                        Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
+                        }
                         
                         java.util.Timer timerout = new java.util.Timer();
                         
@@ -141,6 +153,10 @@ public class Checador extends javax.swing.JFrame {
                         timerout.schedule(task, 2500,1000);
                        
                         
+                    }else{
+                        JOptionPane.showMessageDialog(null, "Es inhabil camarada!");
+                        
+                        }
                     }
                 } catch (NotFoundException ex) {
                     Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
