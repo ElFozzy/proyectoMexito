@@ -20,8 +20,9 @@ public class DiasInhabiles extends javax.swing.JFrame {
      */
     public DiasInhabiles() {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        
+        //this.dispose();
     }
 
     /**

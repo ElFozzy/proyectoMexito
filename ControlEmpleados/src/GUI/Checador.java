@@ -54,6 +54,7 @@ public class Checador extends javax.swing.JFrame {
         
         
         initComponents();
+        this.setLocationRelativeTo(null);
         
         lblIcono.setVisible(false);
         lblMensaje.setVisible(false);
@@ -152,6 +153,8 @@ public class Checador extends javax.swing.JFrame {
         });
         
         timer.start();
+        
+        this.dispose();
         
         
     }
