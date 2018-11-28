@@ -21,7 +21,7 @@ public class empleadoDAL {
     Conexion con = new Conexion();
           
     public int Agregar (empleadoBL objemp){
-        int ComandoEjecutado = con.EjecutarComandoSQL("Insert into Empleados (nombreEmp, foto, sexo, fechaIng, fechaRet, turno) "
+        int ComandoEjecutado = con.EjecutarComandoSQL("Insert into Empleados (nombreEmp, sexo, foto, fechaIng, fechaRet, turno) "
                 + "values  ('"+objemp.getnombreEmp()+"','"+objemp.getsexo()+"','"+objemp.getfoto()+"','"+objemp.getfechaIng()+"','"+objemp.getfechaRet()+"','"+objemp.getturno()+"');");
         con.Desconectar();
         return ComandoEjecutado;
@@ -85,7 +85,8 @@ public class empleadoDAL {
         Resultado.getString(3),
         Resultado.getString(4),
         Resultado.getString(5),
-        Resultado.getString(6),        
+        Resultado.getString(6),
+        Resultado.getString(7),
         Resultado.getString(8)
             
     };
