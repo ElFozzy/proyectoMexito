@@ -23,6 +23,7 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
@@ -46,6 +47,7 @@ import javax.swing.Timer;
  */
 public class Checador extends javax.swing.JFrame {
     Date fechaActual;
+    Webcam webcam;
     /**
      * Creates new form Checador
      */
@@ -64,7 +66,7 @@ public class Checador extends javax.swing.JFrame {
         DateFormat horaFormat = new SimpleDateFormat("hh:mm:ss");
         lblHora.setText(horaFormat.format(fechaActual));
         Dimension size = WebcamResolution.QVGA.getSize();
-        Webcam webcam = Webcam.getDefault();
+        webcam = Webcam.getDefault();
         webcam.setViewSize(size);
         webcam.open();
         
@@ -89,32 +91,38 @@ public class Checador extends javax.swing.JFrame {
                     BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
                     
                     Result result = new MultiFormatReader().decode(bitmap);
-                    if(result.getText() != null){
+                    String re = result.getText();
+                    if(re != null){
+                        
                         empleadoDAL empleados = new empleadoDAL();
-                        empleadoBL empleado = empleados.BuscarEmpleado(Integer.parseInt(result.getText()));
-                        
-                        lblNombre.setText(empleado.getnombreEmp());
-                        //BufferedImage fotoEmp = ImageIO.read(new ByteArrayInputStream());
-                        
-                        
-                        EntradaSalidaDAL entradasSalidas = new EntradaSalidaDAL();
-                        EntradaSalidaBL entSal = new EntradaSalidaBL();
-                        entSal.setIdEmpleado(empleado.getId());
-                        entSal.setFecha(new java.sql.Date(fechaActual.getTime()));
-                        entSal.setHora(new java.sql.Time(fechaActual.getTime()));
-                        if(!entradasSalidas.EntradaPrevia(empleado.getId())){
-                           
-                            lblMensaje.setText("Entrada Registrada");
-                            entSal.setTipo(false);
-                        }else{
-                            entSal.setTipo(true);
-                             lblMensaje.setText("Salida Registrada");
-                        }
-                        entradasSalidas.AgregarEntrada(entSal);
-                        
-                        lblIcono.setVisible(true); 
-                        lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/002-checked.png")));
-                        lblMensaje.setVisible(true);
+        empleadoBL empleado;
+        try {
+            empleado = empleados.BuscarEmpleado(Integer.parseInt(re));
+            lblNombre.setText(empleado.getnombreEmp());
+                       
+            DateFormat formatobd = new SimpleDateFormat("dd/MM/yyyy");
+
+            EntradaSalidaDAL entradasSalidas = new EntradaSalidaDAL();
+            EntradaSalidaBL entSal = new EntradaSalidaBL();
+            entSal.setIdEmpleado(empleado.getId());
+            entSal.setFecha(formatobd.format(fechaActual));
+            entSal.setHora(new java.sql.Time(fechaActual.getTime()));
+            if(!entradasSalidas.EntradaPrevia(empleado.getId())){
+
+                lblMensaje.setText("Entrada Registrada");
+                entSal.setTipo(0);
+            }else{
+                entSal.setTipo(1);
+                lblMensaje.setText("Salida Registrada");
+            }
+            entradasSalidas.AgregarEntrada(entSal);
+
+            lblIcono.setVisible(true); 
+            lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/002-checked.png")));
+            lblMensaje.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
+        }
                         
                         java.util.Timer timerout = new java.util.Timer();
                         
@@ -130,21 +138,10 @@ public class Checador extends javax.swing.JFrame {
                         };
                         
                         timerout.schedule(task, 2500,1000);
-                        
-                        
-                        
-                        //ByteArrayInputStream b = new ByteArrayInputStream(empleado.getfoto());
-                        //ImageIcon icon = new ImageIcon(empleado.getfoto());
                        
-                        //BufferedImage bf = ImageIO.read(b);
-                        //ImageIcon icon1 = new ImageIcon(bf);
-                        //Icon icono = new ImageIcon(icon.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH));
-                        //lblImagen.setIcon(icon);
                         
                     }
                 } catch (NotFoundException ex) {
-                    Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
                     Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
@@ -155,7 +152,14 @@ public class Checador extends javax.swing.JFrame {
         
         
     }
-
+    
+    public void Proceso(String re){
+       
+                     
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -172,7 +176,12 @@ public class Checador extends javax.swing.JFrame {
         lblIcono = new javax.swing.JLabel();
         lblMensaje = new javax.swing.JLabel();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
 
         lblHora.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         lblHora.setText("00:00:00");
@@ -240,6 +249,11 @@ public class Checador extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        webcam.close();
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments

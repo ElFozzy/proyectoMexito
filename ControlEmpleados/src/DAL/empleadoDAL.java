@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.table.*;
-import sun.misc.IOUtils;
 /**
  *
  * @author Christian
@@ -42,10 +41,11 @@ public class empleadoDAL {
     
     public empleadoBL BuscarEmpleado(int id) throws IOException{
         empleadoBL empleado = new empleadoBL();
+        
         try {
             
-            Conexion objConexion= new Conexion();
-            ResultSet Resultado=objConexion.EjecutarSentenciaSQL("SELECT * FROM Empleados where Id="+id);
+            
+            ResultSet Resultado=con.EjecutarSentenciaSQL("SELECT * FROM Empleados where Id="+id);
             if(Resultado.next()){
                 empleado.setId(Resultado.getInt(1));
                 empleado.setnombreEmp(Resultado.getString(2));
@@ -55,9 +55,10 @@ public class empleadoDAL {
                 
                 
             }
+            
         } catch (SQLException ex) {
             Logger.getLogger(empleadoDAL.class.getName()).log(Level.SEVERE, null, ex);
-        }
+        }finally{con.Desconectar();}
         return empleado;
     }
     
@@ -66,7 +67,7 @@ public class empleadoDAL {
         DefaultTableModel dtm =new DefaultTableModel(
         new Object [][] {},
         new String [] {
-         "id","Nombre Empleado","Foto","Sexo","FechaIngreso","FechaRetiro","Turno"
+         "id","Nombre Empleado","Foto","Sexo","FechaIngreso","FechaRetiro","QR","Turno"
         }
        ){ @Override
         public boolean isCellEditable(int row, int column) {
@@ -92,6 +93,7 @@ public class empleadoDAL {
         // Agregar Datos al JTable
         dtm.addRow(Fila);
     }
+        objConexion.Desconectar();
     return dtm;
     }catch(SQLException e){
     return null;
