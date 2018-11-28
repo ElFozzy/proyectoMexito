@@ -5,6 +5,8 @@
  */
 package GUI;
 
+import BL.DiasInhabilesBL;
+import DAL.DiasInhabilesDAL;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -20,8 +22,9 @@ public class DiasInhabiles extends javax.swing.JFrame {
      */
     public DiasInhabiles() {
         initComponents();
+        this.setLocationRelativeTo(null);
         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
-        
+        //this.dispose();
     }
 
     /**
@@ -116,9 +119,19 @@ public class DiasInhabiles extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        
+        DiasInhabilesDAL diasInhabiles = new DiasInhabilesDAL();
+        DiasInhabilesBL diaInhabil = new DiasInhabilesBL();
         Date date = new Date(calendario.getDate().getTime());
-        System.out.println(date);
+        
+        DateFormat diaFormat = new SimpleDateFormat("dd");
+        diaInhabil.setDia(Integer.parseInt(diaFormat.format(date)));
+        
+        DateFormat mesFormat = new SimpleDateFormat("MM");
+        diaInhabil.setMes(Integer.parseInt(diaFormat.format(date)));
+        if(chkDiaIn.isSelected())
+            diasInhabiles.Agregar(diaInhabil);
+        
+        
     }//GEN-LAST:event_btnGuardarActionPerformed
 
     private void calendarioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarioPropertyChange

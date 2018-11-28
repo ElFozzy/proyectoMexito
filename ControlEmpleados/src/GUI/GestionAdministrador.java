@@ -26,6 +26,7 @@ public class GestionAdministrador extends javax.swing.JFrame {
         grpNivel.add(rbtnGeneral);
         grpNivel.add(rbtnContador);
         ActualizartblAdmin();
+        this.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
     adminDAL objadminDAL = new adminDAL();
