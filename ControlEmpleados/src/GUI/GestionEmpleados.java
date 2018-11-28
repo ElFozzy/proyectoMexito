@@ -48,7 +48,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
     public GestionEmpleados() {
         initComponents();
         txtFoto.setVisible(false);
-        //ActualizarEmpleado();        
+        ActualizarEmpleado();        
     }
       
     
@@ -96,7 +96,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
     }
     
     public void ActualizarEmpleado(){
-    //    tbEmpleados.setModel(objempDAL.CargarDatos());
+        tbEmpleados.setModel(objempDAL.CargarDatos());
     }
     /**
      * This method is called from within the constructor to initialize the form.

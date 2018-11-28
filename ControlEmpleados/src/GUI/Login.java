@@ -129,6 +129,8 @@ public class Login extends javax.swing.JFrame {
             }
             rs.close();
             pst.close();
+            connection = null;
+            
         }catch(Exception e){
             JOptionPane.showMessageDialog(null, e);
         }

@@ -15,9 +15,9 @@ import java.sql.Time;
 public class EntradaSalidaBL {
     
     private int idEmpleado;
-    private Date fecha;
+    private String fecha;
     private Time hora;
-    private boolean tipo; 
+    private int tipo; 
 
     public int getIdEmpleado() {
         return idEmpleado;
@@ -27,11 +27,11 @@ public class EntradaSalidaBL {
         this.idEmpleado = idEmpleado;
     }
 
-    public Date getFecha() {
+    public String getFecha() {
         return fecha;
     }
 
-    public void setFecha(Date fecha) {
+    public void setFecha(String fecha) {
         this.fecha = fecha;
     }
 
@@ -43,11 +43,11 @@ public class EntradaSalidaBL {
         this.hora = hora;
     }
 
-    public boolean isTipo() {
+    public int getTipo() {
         return tipo;
     }
 
-    public void setTipo(boolean tipo) {
+    public void setTipo(int tipo) {
         this.tipo = tipo;
     }
     
