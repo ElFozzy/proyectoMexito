@@ -23,6 +23,8 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowListener;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
@@ -46,6 +48,7 @@ import javax.swing.Timer;
  */
 public class Checador extends javax.swing.JFrame {
     Date fechaActual;
+    Webcam webcam;
     /**
      * Creates new form Checador
      */
@@ -65,7 +68,7 @@ public class Checador extends javax.swing.JFrame {
         DateFormat horaFormat = new SimpleDateFormat("hh:mm:ss");
         lblHora.setText(horaFormat.format(fechaActual));
         Dimension size = WebcamResolution.QVGA.getSize();
-        Webcam webcam = Webcam.getDefault();
+        webcam = Webcam.getDefault();
         webcam.setViewSize(size);
         webcam.open();
         
@@ -90,32 +93,38 @@ public class Checador extends javax.swing.JFrame {
                     BinaryBitmap bitmap = new BinaryBitmap(new HybridBinarizer(source));
                     
                     Result result = new MultiFormatReader().decode(bitmap);
-                    if(result.getText() != null){
+                    String re = result.getText();
+                    if(re != null){
+                        
                         empleadoDAL empleados = new empleadoDAL();
-                        empleadoBL empleado = empleados.BuscarEmpleado(Integer.parseInt(result.getText()));
-                        
-                        lblNombre.setText(empleado.getnombreEmp());
-                        //BufferedImage fotoEmp = ImageIO.read(new ByteArrayInputStream());
-                        
-                        
-                        EntradaSalidaDAL entradasSalidas = new EntradaSalidaDAL();
-                        EntradaSalidaBL entSal = new EntradaSalidaBL();
-                        entSal.setIdEmpleado(empleado.getId());
-                        entSal.setFecha(new java.sql.Date(fechaActual.getTime()));
-                        entSal.setHora(new java.sql.Time(fechaActual.getTime()));
-                        if(!entradasSalidas.EntradaPrevia(empleado.getId())){
-                           
-                            lblMensaje.setText("Entrada Registrada");
-                            entSal.setTipo(false);
-                        }else{
-                            entSal.setTipo(true);
-                             lblMensaje.setText("Salida Registrada");
-                        }
-                        entradasSalidas.AgregarEntrada(entSal);
-                        
-                        lblIcono.setVisible(true); 
-                        lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/002-checked.png")));
-                        lblMensaje.setVisible(true);
+        empleadoBL empleado;
+        try {
+            empleado = empleados.BuscarEmpleado(Integer.parseInt(re));
+            lblNombre.setText(empleado.getnombreEmp());
+                       
+            DateFormat formatobd = new SimpleDateFormat("dd/MM/yyyy");
+
+            EntradaSalidaDAL entradasSalidas = new EntradaSalidaDAL();
+            EntradaSalidaBL entSal = new EntradaSalidaBL();
+            entSal.setIdEmpleado(empleado.getId());
+            entSal.setFecha(formatobd.format(fechaActual));
+            entSal.setHora(new java.sql.Time(fechaActual.getTime()));
+            if(rdEntrada.isSelected()){
+
+                lblMensaje.setText("Entrada Registrada");
+                entSal.setTipo(0);
+            }else if(rdEntrada.isSelected()){
+                entSal.setTipo(1);
+                lblMensaje.setText("Salida Registrada");
+            }
+            entradasSalidas.AgregarEntrada(entSal);
+
+            lblIcono.setVisible(true); 
+            lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/002-checked.png")));
+            lblMensaje.setVisible(true);
+        } catch (IOException ex) {
+            Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
+        }
                         
                         java.util.Timer timerout = new java.util.Timer();
                         
@@ -131,21 +140,10 @@ public class Checador extends javax.swing.JFrame {
                         };
                         
                         timerout.schedule(task, 2500,1000);
-                        
-                        
-                        
-                        //ByteArrayInputStream b = new ByteArrayInputStream(empleado.getfoto());
-                        //ImageIcon icon = new ImageIcon(empleado.getfoto());
                        
-                        //BufferedImage bf = ImageIO.read(b);
-                        //ImageIcon icon1 = new ImageIcon(bf);
-                        //Icon icono = new ImageIcon(icon.getImage().getScaledInstance(lblImagen.getWidth(), lblImagen.getHeight(), Image.SCALE_SMOOTH));
-                        //lblImagen.setIcon(icon);
                         
                     }
                 } catch (NotFoundException ex) {
-                    Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
-                } catch (IOException ex) {
                     Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
@@ -158,7 +156,14 @@ public class Checador extends javax.swing.JFrame {
         
         
     }
-
+    
+    public void Proceso(String re){
+       
+                     
+        
+    }
+    
+    
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -174,8 +179,22 @@ public class Checador extends javax.swing.JFrame {
         lblImagen = new javax.swing.JLabel();
         lblIcono = new javax.swing.JLabel();
         lblMensaje = new javax.swing.JLabel();
+        lblTipo = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        rdEntrada = new javax.swing.JRadioButton();
+        rdSalida = new javax.swing.JRadioButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+        });
+        addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                formKeyReleased(evt);
+            }
+        });
 
         lblHora.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
         lblHora.setText("00:00:00");
@@ -197,6 +216,45 @@ public class Checador extends javax.swing.JFrame {
         lblMensaje.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblMensaje.setText("Mensaje");
 
+        lblTipo.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        lblTipo.setText("ENTRADA");
+
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
+
+        rdEntrada.setText("Entrada");
+        rdEntrada.setActionCommand("radioEnt");
+        rdEntrada.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdEntradaActionPerformed(evt);
+            }
+        });
+
+        rdSalida.setText("Salida");
+        rdSalida.setActionCommand("radioEnt");
+        rdSalida.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                rdSalidaActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(rdEntrada)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 9, Short.MAX_VALUE)
+                .addComponent(rdSalida)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(rdEntrada)
+                .addComponent(rdSalida))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -205,22 +263,22 @@ public class Checador extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(22, 22, 22)
-                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lblFecha)
-                            .addComponent(lblHora)))
+                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 103, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addContainerGap()
-                        .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(39, 39, 39)
+                        .addComponent(lblNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 133, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblMensaje)
+                            .addComponent(lblIcono))))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(lblMensaje)
-                    .addComponent(lblIcono))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(lblHora, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblFecha, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblTipo, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jPanel1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -228,21 +286,61 @@ public class Checador extends javax.swing.JFrame {
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblNombre)
+                        .addGap(18, 18, 18)
+                        .addComponent(lblIcono)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblMensaje))
+                    .addGroup(layout.createSequentialGroup()
                         .addComponent(lblHora, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lblImagen, javax.swing.GroupLayout.PREFERRED_SIZE, 99, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblNombre)
-                .addGap(18, 18, 18)
-                .addComponent(lblIcono)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblMensaje)
+                        .addComponent(lblFecha, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(lblTipo)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(52, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+        // TODO add your handling code here:
+        webcam.close();
+    }//GEN-LAST:event_formWindowClosed
+
+    private void formKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_formKeyReleased
+        // TODO add your handling code here:
+        int code = evt.getKeyCode(); 
+        char caracter = evt.getKeyChar(); 
+        
+        if(evt.getKeyCode() == KeyEvent.VK_F2){
+            JOptionPane.showMessageDialog(null,"F2");
+        
+        }
+        
+    }//GEN-LAST:event_formKeyReleased
+
+    private void rdEntradaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdEntradaActionPerformed
+        // TODO add your handling code here:
+        if(rdSalida.isSelected())
+        {
+            rdSalida.setSelected(false);
+            rdEntrada.setSelected(true);
+        }
+    }//GEN-LAST:event_rdEntradaActionPerformed
+
+    private void rdSalidaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_rdSalidaActionPerformed
+        // TODO add your handling code here:
+        if(rdEntrada.isSelected())
+        {
+            rdSalida.setSelected(true);
+            rdEntrada.setSelected(false);
+        }
+    }//GEN-LAST:event_rdSalidaActionPerformed
 
     /**
      * @param args the command line arguments
@@ -280,11 +378,15 @@ public class Checador extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lblFecha;
     private javax.swing.JLabel lblHora;
     private javax.swing.JLabel lblIcono;
     private javax.swing.JLabel lblImagen;
     private javax.swing.JLabel lblMensaje;
     private javax.swing.JLabel lblNombre;
+    private javax.swing.JLabel lblTipo;
+    private javax.swing.JRadioButton rdEntrada;
+    private javax.swing.JRadioButton rdSalida;
     // End of variables declaration//GEN-END:variables
 }

@@ -15,7 +15,7 @@ public class empleadoBL {
     
     public int id;
     public String nombreEmp;
-    public byte[] foto;
+    public String foto;
     public String sexo;
     public String fechaIng;
     public String fechaRet;
@@ -37,11 +37,11 @@ public class empleadoBL {
         this.nombreEmp = nombreEmp;
     }
     
-    public byte[] getfoto(){
+    public String getfoto(){
         return foto;
     }
     
-    public void setfoto(byte[] foto){
+    public void setfoto(String foto){
         this.foto = foto;
     }
     

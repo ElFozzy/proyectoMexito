@@ -1,4 +1,4 @@
-package GUI;
+  package GUI;
 
 
 
@@ -12,7 +12,10 @@ import DAL.Conexion;
  */
 import BL.empleadoBL;
 import DAL.empleadoDAL;
+import com.barcodelib.barcode.QRCode;
+import java.awt.Desktop;
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -21,8 +24,10 @@ import java.util.Date;
 import static java.util.Locale.filter;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.filechooser.FileNameExtensionFilter;
 /**
@@ -34,34 +39,23 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class GestionEmpleados extends javax.swing.JFrame {
     Conexion conn = new Conexion();
 
-empleadoBL objempBL = new empleadoBL();
+    empleadoBL objempBL = new empleadoBL();
     empleadoDAL objempDAL = new empleadoDAL();
+    int udm = 0, resol = 72, rot=0;
+    float mi = 5.000f, md = 5.000f, ms = 5.000f, min = 5.000f, tam=50.00f;
+    
+    private JPanel contentPane;
+    File fichero = null;
     /**
      * Creates new form Add_Employed
      */
     public GestionEmpleados() {
         initComponents();
-
+        txtFoto.setVisible(false);
+        txtId.setVisible(false);
         ActualizarEmpleado();        
     }
-    
-    String ImagePath = null;
-    
-    public ImageIcon ResizeImage(String imagePath, byte[] pic){
-        
-        ImageIcon myImage = null;
-        
-        if(imagePath != null){
-            myImage = new ImageIcon(imagePath);
-        }else{
-            myImage = new ImageIcon(pic);
-        }
-        
-        Image img = myImage.getImage();
-        Image img2 = img.getScaledInstance(lbLoadImage.getWidth(), lbLoadImage.getHeight(), Image.SCALE_SMOOTH);
-        ImageIcon image = new ImageIcon(img2);
-        return image;        
-    }
+      
     
     public void CleanData(){
         txtNombre.setText("");
@@ -70,12 +64,12 @@ empleadoBL objempBL = new empleadoBL();
         dtIngreso.setDate(null);
         dtRetiro.setDate(null);
         cboTurno.setSelectedIndex(0);        
-                
+        txtFoto.setText("");
+        lbLoadImage.setIcon(null);                
     }
     
     public empleadoBL RecolectarDatos(){            
-        
-      //  try {
+              
             int id = Integer.parseInt(txtId.getText());
             String fechaIngreso = dtIngreso.getDate().toString();
             String fechaRetiro = dtRetiro.getDate().toString();
@@ -99,18 +93,8 @@ empleadoBL objempBL = new empleadoBL();
             objempBL.setfechaIng(fechaIngreso);
             objempBL.setfechaRet(fechaRetiro);
             objempBL.setturno(turno);
-            
-            
-            
-          //  InputStream img = new FileInputStream(new File(ImagePath));
-           // objempBL.setfoto(img);
-            
-       // } catch (Exception ex) {
-       
-       
-        //    Logger.getLogger(GestionEmpleados.class.getName()).log(Level.SEVERE, null, ex);
-        //}
-       
+            objempBL.setfoto(txtFoto.getText());
+                                
         
         return objempBL;
     }
@@ -149,6 +133,8 @@ empleadoBL objempBL = new empleadoBL();
         btnLimpiar = new javax.swing.JButton();
         txtId = new javax.swing.JTextField();
         lbLoadImage = new javax.swing.JLabel();
+        txtFoto = new javax.swing.JTextField();
+        btnGenerarQR = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Generar Empleado");
@@ -164,6 +150,12 @@ empleadoBL objempBL = new empleadoBL();
         jLabel1.setText("Datos Generales");
 
         jLabel2.setText("Nombre Completo");
+
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         jLabel3.setText("Sexo");
 
@@ -249,6 +241,13 @@ empleadoBL objempBL = new empleadoBL();
             }
         });
 
+        btnGenerarQR.setText("Generar QR");
+        btnGenerarQR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarQRActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -259,7 +258,8 @@ empleadoBL objempBL = new empleadoBL();
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(btnSelectImage, javax.swing.GroupLayout.DEFAULT_SIZE, 159, Short.MAX_VALUE)
-                            .addComponent(lbLoadImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                            .addComponent(lbLoadImage, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(txtFoto))
                         .addGap(26, 26, 26)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -291,6 +291,8 @@ empleadoBL objempBL = new empleadoBL();
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnGenerarQR)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnLimpiar)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -305,7 +307,7 @@ empleadoBL objempBL = new empleadoBL();
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -335,14 +337,16 @@ empleadoBL objempBL = new empleadoBL();
                 .addGap(36, 36, 36)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel6)
-                    .addComponent(cboTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(cboTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtFoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnEditar)
                     .addComponent(btnEliminar)
                     .addComponent(btnReporte)
-                    .addComponent(btnLimpiar))
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnGenerarQR))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(21, Short.MAX_VALUE))
@@ -353,6 +357,7 @@ empleadoBL objempBL = new empleadoBL();
 
     private void tbEmpleadosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbEmpleadosMouseClicked
         // TODO add your handling code here:
+         BufferedImage img = null;
           int row = tbEmpleados.getSelectedRow();
         JTable target = (JTable)evt.getSource();
         txtId.setText(target.getValueAt(row,0).toString());
@@ -360,7 +365,14 @@ empleadoBL objempBL = new empleadoBL();
         cboSexo.setSelectedItem(target.getValueAt(row,3));
         dtIngreso.setDate(new Date(target.getValueAt(row,4).toString()));
         dtRetiro.setDate(new Date(target.getValueAt(row,5).toString()));
-        cboTurno.setSelectedItem(target.getValueAt(row,6));               
+        cboTurno.setSelectedItem(target.getValueAt(row,6));  
+        String r = target.getValueAt(row, 2).toString();
+        txtFoto.setText(r);
+        ImageIcon icon = new ImageIcon(r);
+        Icon icono = new ImageIcon(icon.getImage().getScaledInstance(lbLoadImage.getWidth(), lbLoadImage.getHeight(), Image.SCALE_SMOOTH));
+        lbLoadImage.setText(null);
+        lbLoadImage.setIcon(icono);
+        
     }//GEN-LAST:event_tbEmpleadosMouseClicked
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
@@ -375,22 +387,21 @@ empleadoBL objempBL = new empleadoBL();
     }//GEN-LAST:event_txtIdActionPerformed
 
     private void btnSelectImageActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSelectImageActionPerformed
-        // TODO add your handling code here:
         JFileChooser file = new JFileChooser();
-        file.setCurrentDirectory(new File(System.getProperty("user.home")));
+        FileNameExtensionFilter filtro = new FileNameExtensionFilter("*.jpg", "jpg");
+        file.setFileFilter(filtro);
         
-        FileNameExtensionFilter filter = new FileNameExtensionFilter("*.images","jpg","png");
-        file.addChoosableFileFilter(filter);
-        int result = file.showSaveDialog(null);
+       int seleccion = file.showOpenDialog(contentPane);
         
-        if(result == JFileChooser.APPROVE_OPTION){
-            File selectedFile = file.getSelectedFile();
-            String path = selectedFile.getAbsolutePath();
-            lbLoadImage.setIcon(ResizeImage(path, null));
-        }else{
-            System.out.println("No has seleccionado una imagen");
+       if(seleccion == JFileChooser.APPROVE_OPTION){
+            fichero = file.getSelectedFile();
+            txtFoto.setText(fichero.getAbsolutePath());
+            ImageIcon icon = new ImageIcon(fichero.toString());
+            System.out.print(fichero.getName());
+            Icon icono = new ImageIcon(icon.getImage().getScaledInstance(lbLoadImage.getWidth(), lbLoadImage.getHeight(), Image.SCALE_DEFAULT));
+            lbLoadImage.setText(null);
+            lbLoadImage.setIcon(icono);
         }
-        
         
     }//GEN-LAST:event_btnSelectImageActionPerformed
 
@@ -413,6 +424,46 @@ empleadoBL objempBL = new empleadoBL();
         ActualizarEmpleado();
         CleanData();
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if((c<'a' || c>'z') && (c<'A' || c>'Z')){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    public void generarQR(String data){        
+        try{            
+            QRCode c = new QRCode();
+            c.setData(data);
+            c.setDataMode(QRCode.MODE_BYTE);
+            c.setUOM(udm);
+            c.setLeftMargin(mi);
+            c.setRightMargin(md);
+            c.setTopMargin(ms);
+            c.setBottomMargin(min);
+            c.setResolution(resol);
+            c.setRotate(rot);
+            c.setModuleSize(mi);
+            
+            String archivo = System.getProperty("user.home")+"/qrEmpleado.gif";
+            c.renderBarcode(archivo);
+            Desktop d = Desktop.getDesktop();
+            d.open(new File(archivo));
+            
+        }catch(Exception ex){
+            
+        }
+    }
+    
+    private void btnGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarQRActionPerformed
+        // TODO add your handling code here:
+        String idUser = txtId.getText();
+        generarQR(idUser);
+        
+    }//GEN-LAST:event_btnGenerarQRActionPerformed
 
     /**
      * @param args the command line arguments
@@ -459,6 +510,7 @@ empleadoBL objempBL = new empleadoBL();
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGenerarQR;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnReporte;
@@ -477,6 +529,7 @@ empleadoBL objempBL = new empleadoBL();
     private org.jdesktop.swingx.JXDatePicker jXDatePicker3;
     private javax.swing.JLabel lbLoadImage;
     private javax.swing.JTable tbEmpleados;
+    private javax.swing.JTextField txtFoto;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
