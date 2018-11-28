@@ -12,6 +12,8 @@ import DAL.Conexion;
  */
 import BL.empleadoBL;
 import DAL.empleadoDAL;
+import com.barcodelib.barcode.QRCode;
+import java.awt.Desktop;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -39,6 +41,8 @@ public class GestionEmpleados extends javax.swing.JFrame {
 
     empleadoBL objempBL = new empleadoBL();
     empleadoDAL objempDAL = new empleadoDAL();
+    int udm = 0, resol = 72, rot=0;
+    float mi = 5.000f, md = 5.000f, ms = 5.000f, min = 5.000f, tam=50.00f;
     
     private JPanel contentPane;
     File fichero = null;
@@ -48,7 +52,8 @@ public class GestionEmpleados extends javax.swing.JFrame {
     public GestionEmpleados() {
         initComponents();
         txtFoto.setVisible(false);
-        //ActualizarEmpleado();        
+        txtId.setVisible(false);
+        ActualizarEmpleado();        
     }
       
     
@@ -60,8 +65,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
         dtRetiro.setDate(null);
         cboTurno.setSelectedIndex(0);        
         txtFoto.setText("");
-        lbLoadImage.setIcon(null);
-                
+        lbLoadImage.setIcon(null);                
     }
     
     public empleadoBL RecolectarDatos(){            
@@ -96,7 +100,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
     }
     
     public void ActualizarEmpleado(){
-    //    tbEmpleados.setModel(objempDAL.CargarDatos());
+        tbEmpleados.setModel(objempDAL.CargarDatos());
     }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -130,6 +134,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
         txtId = new javax.swing.JTextField();
         lbLoadImage = new javax.swing.JLabel();
         txtFoto = new javax.swing.JTextField();
+        btnGenerarQR = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Generar Empleado");
@@ -145,6 +150,12 @@ public class GestionEmpleados extends javax.swing.JFrame {
         jLabel1.setText("Datos Generales");
 
         jLabel2.setText("Nombre Completo");
+
+        txtNombre.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                txtNombreKeyTyped(evt);
+            }
+        });
 
         jLabel3.setText("Sexo");
 
@@ -230,6 +241,13 @@ public class GestionEmpleados extends javax.swing.JFrame {
             }
         });
 
+        btnGenerarQR.setText("Generar QR");
+        btnGenerarQR.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarQRActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -273,6 +291,8 @@ public class GestionEmpleados extends javax.swing.JFrame {
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(btnGenerarQR)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnLimpiar)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -325,7 +345,8 @@ public class GestionEmpleados extends javax.swing.JFrame {
                     .addComponent(btnEditar)
                     .addComponent(btnEliminar)
                     .addComponent(btnReporte)
-                    .addComponent(btnLimpiar))
+                    .addComponent(btnLimpiar)
+                    .addComponent(btnGenerarQR))
                 .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(21, Short.MAX_VALUE))
@@ -357,7 +378,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
         objempDAL.Agregar(RecolectarDatos());
-        //ActualizarEmpleado();
+        ActualizarEmpleado();
         CleanData();
     }//GEN-LAST:event_btnGuardarActionPerformed
 
@@ -387,7 +408,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         objempDAL.Eliminar(RecolectarDatos());
-        //ActualizarEmpleado();
+        ActualizarEmpleado();
         CleanData();
         
     }//GEN-LAST:event_btnEliminarActionPerformed
@@ -400,9 +421,49 @@ public class GestionEmpleados extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         objempDAL.Modificar(RecolectarDatos());
-        //ActualizarEmpleado();
+        ActualizarEmpleado();
         CleanData();
     }//GEN-LAST:event_btnEditarActionPerformed
+
+    private void txtNombreKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyTyped
+        // TODO add your handling code here:
+        char c = evt.getKeyChar();
+        
+        if((c<'a' || c>'z') && (c<'A' || c>'Z')){
+            evt.consume();
+        }
+    }//GEN-LAST:event_txtNombreKeyTyped
+
+    public void generarQR(String data){        
+        try{            
+            QRCode c = new QRCode();
+            c.setData(data);
+            c.setDataMode(QRCode.MODE_BYTE);
+            c.setUOM(udm);
+            c.setLeftMargin(mi);
+            c.setRightMargin(md);
+            c.setTopMargin(ms);
+            c.setBottomMargin(min);
+            c.setResolution(resol);
+            c.setRotate(rot);
+            c.setModuleSize(mi);
+            
+            String archivo = System.getProperty("user.home")+"/qrEmpleado.gif";
+            c.renderBarcode(archivo);
+            Desktop d = Desktop.getDesktop();
+            d.open(new File(archivo));
+            
+        }catch(Exception ex){
+            
+        }
+    }
+    
+    private void btnGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarQRActionPerformed
+        // TODO add your handling code here:
+        String idUser = txtId.getText();
+        generarQR(idUser);
+        
+    }//GEN-LAST:event_btnGenerarQRActionPerformed
 
     /**
      * @param args the command line arguments
@@ -449,6 +510,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnGenerarQR;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JButton btnReporte;
