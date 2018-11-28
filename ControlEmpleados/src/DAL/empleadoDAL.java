@@ -26,6 +26,12 @@ public class empleadoDAL {
         return ComandoEjecutado;
     }
     
+    public int AgregarQR(empleadoBL objemp){
+        int ComandoEjecutado = con.EjecutarComandoSQL("Update Empleados set QR='"+objemp.getqr()+"' where id=(Select last_insert_rowid());");
+        con.Desconectar();
+        return ComandoEjecutado;
+    }
+    
     public int Eliminar (empleadoBL objemp){
         int ComandoEjecutado = con.EjecutarComandoSQL("Delete from Empleados where id='"+objemp.getId()+"'");
         con.Desconectar();
@@ -86,7 +92,8 @@ public class empleadoDAL {
         Resultado.getString(3),
         Resultado.getString(4),
         Resultado.getString(5),
-        Resultado.getString(6),        
+        Resultado.getString(6), 
+        Resultado.getString(7),
         Resultado.getString(8)
             
     };

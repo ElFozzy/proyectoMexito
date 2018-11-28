@@ -20,6 +20,7 @@ public class empleadoBL {
     public String fechaIng;
     public String fechaRet;
     public String turno;
+    public String qr;
     
     public int getId(){
         return id;        
@@ -76,4 +77,13 @@ public class empleadoBL {
     public void setturno(String turno){
         this.turno = turno;
     }
+    
+    public String getqr(){
+        return qr;
+    }
+    
+    public void serqr(String qr){
+        this.qr = qr;
+    }
+    
 }

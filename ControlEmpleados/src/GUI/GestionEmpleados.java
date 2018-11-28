@@ -67,6 +67,11 @@ public class GestionEmpleados extends javax.swing.JFrame {
         txtFoto.setText("");
         lbLoadImage.setIcon(null);                
     }
+        
+    public empleadoBL RecolectarQR(){
+        objempBL.qr=txtRutaQr.getText();
+        return objempBL;
+    }
     
     public empleadoBL RecolectarDatos(){            
               
@@ -94,6 +99,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
             objempBL.setfechaRet(fechaRetiro);
             objempBL.setturno(turno);
             objempBL.setfoto(txtFoto.getText());
+            
                                 
         
         return objempBL;
@@ -135,6 +141,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
         lbLoadImage = new javax.swing.JLabel();
         txtFoto = new javax.swing.JTextField();
         btnGenerarQR = new javax.swing.JButton();
+        txtRutaQr = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Generar Empleado");
@@ -302,7 +309,10 @@ public class GestionEmpleados extends javax.swing.JFrame {
                                 .addComponent(btnEliminar)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnReporte)))
-                        .addContainerGap())))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(txtRutaQr, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 0, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -339,7 +349,9 @@ public class GestionEmpleados extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(cboTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtFoto, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(73, 73, 73)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(txtRutaQr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnEditar)
@@ -365,7 +377,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
         cboSexo.setSelectedItem(target.getValueAt(row,3));
         dtIngreso.setDate(new Date(target.getValueAt(row,4).toString()));
         dtRetiro.setDate(new Date(target.getValueAt(row,5).toString()));
-        cboTurno.setSelectedItem(target.getValueAt(row,6));  
+        cboTurno.setSelectedItem(target.getValueAt(row,7));  
         String r = target.getValueAt(row, 2).toString();
         txtFoto.setText(r);
         ImageIcon icon = new ImageIcon(r);
@@ -377,7 +389,10 @@ public class GestionEmpleados extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        objempDAL.Agregar(RecolectarDatos());
+        objempDAL.Agregar(RecolectarDatos());        
+        String idUser = txtId.getText();
+        generarQR(idUser);        
+        objempDAL.AgregarQR(RecolectarQR());
         ActualizarEmpleado();
         CleanData();
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -452,6 +467,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
             c.renderBarcode(archivo);
             Desktop d = Desktop.getDesktop();
             d.open(new File(archivo));
+            txtRutaQr.setText(archivo);
             
         }catch(Exception ex){
             
@@ -459,10 +475,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
     }
     
     private void btnGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarQRActionPerformed
-        // TODO add your handling code here:
-        String idUser = txtId.getText();
-        generarQR(idUser);
-        
+        // TODO add your handling code here:                
     }//GEN-LAST:event_btnGenerarQRActionPerformed
 
     /**
@@ -532,5 +545,6 @@ public class GestionEmpleados extends javax.swing.JFrame {
     private javax.swing.JTextField txtFoto;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtRutaQr;
     // End of variables declaration//GEN-END:variables
 }
