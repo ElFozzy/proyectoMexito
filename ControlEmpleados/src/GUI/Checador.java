@@ -52,6 +52,9 @@ public class Checador extends javax.swing.JFrame {
     Date fechaActual;
     Webcam webcam;
     DiasInhabilesDAL dias = new DiasInhabilesDAL();
+    empleadoDAL empleados = new empleadoDAL();
+    EntradaSalidaDAL entradasSalidas = new EntradaSalidaDAL();
+
     /**
      * Creates new form Checador
      */
@@ -78,7 +81,7 @@ public class Checador extends javax.swing.JFrame {
         WebcamPanel panel = new WebcamPanel(webcam);
         panel.setPreferredSize(size);
         //panel.setFPSDisplayed(true);
-        panel.setBounds(240,140,150,150);
+        panel.setBounds(240,170,150,150);
         add(panel);
         
         Timer timer =  new Timer(1000, new ActionListener() {
@@ -108,7 +111,6 @@ public class Checador extends javax.swing.JFrame {
 
                     if(re != null){
                         if(true){
-                        empleadoDAL empleados = new empleadoDAL();
                         empleadoBL empleado;
                         try {
                             empleado = empleados.BuscarEmpleado(Integer.parseInt(re));
@@ -116,7 +118,6 @@ public class Checador extends javax.swing.JFrame {
                        
                             DateFormat formatobd = new SimpleDateFormat("dd/MM/yyyy");
 
-                            EntradaSalidaDAL entradasSalidas = new EntradaSalidaDAL();
                             EntradaSalidaBL entSal = new EntradaSalidaBL();
                             entSal.setIdEmpleado(empleado.getId());
                             entSal.setFecha(formatobd.format(fechaActual));
@@ -125,7 +126,7 @@ public class Checador extends javax.swing.JFrame {
 
                                 lblMensaje.setText("Entrada Registrada");
                                 entSal.setTipo(0);
-                            }else if(rdEntrada.isSelected()){
+                            }else if(rdSalida.isSelected()){
                                 entSal.setTipo(1);
                                 lblMensaje.setText("Salida Registrada");
                             }
@@ -168,7 +169,7 @@ public class Checador extends javax.swing.JFrame {
         
         timer.start();
         
-        this.dispose();
+       
         
         
     }
@@ -225,7 +226,6 @@ public class Checador extends javax.swing.JFrame {
         lblImagen.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         lblImagen.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/001-man-user.png"))); // NOI18N
 
-        lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/001-man-user.png"))); // NOI18N
         lblIcono.setText(",.");
 
         lblMensaje.setFont(new java.awt.Font("Tahoma", 0, 18)); // NOI18N
@@ -317,7 +317,7 @@ public class Checador extends javax.swing.JFrame {
                         .addComponent(lblTipo)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(102, Short.MAX_VALUE))
         );
 
         pack();
