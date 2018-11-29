@@ -27,8 +27,6 @@ public class Conexion {
             Class.forName("org.sqlite.JDBC");
 
             this.conn = DriverManager.getConnection(conexShari);
-
-            this.conn = DriverManager.getConnection(conexMontalvo);
             System.out.println("Conectado");
         }catch(Exception ex){
             System.err.println("Problemas al conectarse " + ex);

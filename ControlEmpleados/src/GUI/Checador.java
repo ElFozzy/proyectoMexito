@@ -107,7 +107,7 @@ public class Checador extends javax.swing.JFrame {
                     //dia.setMes(11);
 
                     if(re != null){
-                        if(!dias.IsDiaInhabil(dia.getDia(),dia.getMes())){
+                        if(true){
                         empleadoDAL empleados = new empleadoDAL();
                         empleadoBL empleado;
                         try {
