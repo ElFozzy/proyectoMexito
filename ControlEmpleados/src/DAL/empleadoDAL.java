@@ -68,8 +68,8 @@ public class empleadoDAL {
             if(Resultado.next()){
                 empleado.setId(Resultado.getInt(1));
                 empleado.setnombreEmp(Resultado.getString(2));
-                //byte[] bytes = Resultado.getBytes(3);
-                //empleado.setfoto(bytes);
+                empleado.setfoto(Resultado.getString(3));
+               
                 
                 
                 
