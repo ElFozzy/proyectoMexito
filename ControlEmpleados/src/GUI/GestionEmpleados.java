@@ -12,6 +12,7 @@ import DAL.Conexion;
  */
 import BL.empleadoBL;
 import DAL.empleadoDAL;
+import Reportes.ReporteGafete;
 import com.barcodelib.barcode.QRCode;
 import com.sun.javafx.scene.layout.region.Margins;
 import java.awt.Desktop;
@@ -142,7 +143,6 @@ public class GestionEmpleados extends javax.swing.JFrame {
         tbEmpleados = new javax.swing.JTable();
         btnEditar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
-        btnReporte = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
         txtId = new javax.swing.JTextField();
         lbLoadImage = new javax.swing.JLabel();
@@ -240,8 +240,6 @@ public class GestionEmpleados extends javax.swing.JFrame {
             }
         });
 
-        btnReporte.setText("Generar Reporte");
-
         btnLimpiar.setText("Limpiar");
         btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -256,7 +254,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
             }
         });
 
-        btnGenerarQR.setText("Generar QR");
+        btnGenerarQR.setText("Generar gafete");
         btnGenerarQR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnGenerarQRActionPerformed(evt);
@@ -318,8 +316,6 @@ public class GestionEmpleados extends javax.swing.JFrame {
                             .addComponent(jScrollPane1)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(0, 0, Short.MAX_VALUE)
-                                .addComponent(btnGenerarQR)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addComponent(btnLimpiar)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -327,8 +323,9 @@ public class GestionEmpleados extends javax.swing.JFrame {
                                 .addComponent(btnEditar)
                                 .addGap(18, 18, 18)
                                 .addComponent(btnEliminar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnReporte)))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(btnGenerarQR)
+                                .addGap(18, 18, 18)))
                         .addContainerGap())
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -380,7 +377,6 @@ public class GestionEmpleados extends javax.swing.JFrame {
                     .addComponent(btnGuardar)
                     .addComponent(btnEditar)
                     .addComponent(btnEliminar)
-                    .addComponent(btnReporte)
                     .addComponent(btnLimpiar)
                     .addComponent(btnGenerarQR))
                 .addGap(18, 18, 18)
@@ -508,8 +504,8 @@ public class GestionEmpleados extends javax.swing.JFrame {
     
     private void btnGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarQRActionPerformed
         // TODO add your handling code here:
-        String idUser = txtId.getText();
-        generarQR(idUser);
+        ReporteGafete reporte = new ReporteGafete();
+        reporte.GenerarGafete(Integer.parseInt(txtId.getText()));
         
     }//GEN-LAST:event_btnGenerarQRActionPerformed
 
@@ -570,7 +566,6 @@ public class GestionEmpleados extends javax.swing.JFrame {
     private javax.swing.JButton btnGenerarQR;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnReporte;
     private javax.swing.JButton btnSelectImage;
     private javax.swing.JComboBox<String> cboSexo;
     private javax.swing.JComboBox<String> cboTurno;

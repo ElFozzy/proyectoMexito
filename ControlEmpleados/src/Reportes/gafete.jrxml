@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 6.6.0.final using JasperReports Library version 6.6.0  -->
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="gafete" pageWidth="260" pageHeight="290" orientation="Landscape" columnWidth="260" leftMargin="0" rightMargin="0" topMargin="0" bottomMargin="0" uuid="67fda845-14c5-44f3-9c06-ffe1589617c4">
+	<property name="com.jaspersoft.studio.data.sql.tables">
+		<![CDATA[IkVtcGxlYWRvcyIgQVMgLDU4LDM0LGY0YWU3ZjA4LTIzODEtNDJjYy1hODEyLTY2NTFjZTBkNzhm
+OTs=]]>
+	</property>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w1" value="479"/>
+	<property name="com.jaspersoft.studio.data.sql.SQLQueryDesigner.sash.w2" value="521"/>
+	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="sqliteEmpleados"/>
+	<property name="com.jaspersoft.studio.unit." value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageHeight" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.pageWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.topMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.bottomMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.leftMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.rightMargin" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnWidth" value="pixel"/>
+	<property name="com.jaspersoft.studio.unit.columnSpacing" value="pixel"/>
+	<parameter name="id" class="java.lang.Integer">
+		<parameterDescription><![CDATA[idEmpleado]]></parameterDescription>
+	</parameter>
+	<queryString language="SQL">
+		<![CDATA[SELECT "Empleados".id,
+	"Empleados"."nombreEmp",
+	"Empleados".foto,
+	"Empleados".sexo,
+	"Empleados"."fechaIng",
+	"Empleados"."fechaRet",
+	"Empleados"."QR",
+	"Empleados".turno
+FROM "Empleados" where "Empleados".id=$P!{id}]]>
+	</queryString>
+	<field name="id" class="java.lang.Object">
+		<property name="com.jaspersoft.studio.field.label" value="id"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Empleados"/>
+	</field>
+	<field name="nombreEmp" class="java.lang.Object">
+		<property name="com.jaspersoft.studio.field.label" value="nombreEmp"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Empleados"/>
+	</field>
+	<field name="foto" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="foto"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Empleados"/>
+	</field>
+	<field name="sexo" class="java.lang.Object">
+		<property name="com.jaspersoft.studio.field.label" value="sexo"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Empleados"/>
+	</field>
+	<field name="fechaIng" class="java.lang.Object">
+		<property name="com.jaspersoft.studio.field.label" value="fechaIng"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Empleados"/>
+	</field>
+	<field name="fechaRet" class="java.lang.Object">
+		<property name="com.jaspersoft.studio.field.label" value="fechaRet"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Empleados"/>
+	</field>
+	<field name="QR" class="java.lang.String">
+		<property name="com.jaspersoft.studio.field.label" value="QR"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Empleados"/>
+	</field>
+	<field name="turno" class="java.lang.Object">
+		<property name="com.jaspersoft.studio.field.label" value="turno"/>
+		<property name="com.jaspersoft.studio.field.tree.path" value="Empleados"/>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="280" splitType="Stretch">
+			<rectangle>
+				<reportElement x="25" y="5" width="210" height="270" uuid="12fb8794-fa65-4b6d-b327-6f3f672452f4"/>
+			</rectangle>
+			<textField isStretchWithOverflow="true">
+				<reportElement x="60" y="153" width="130" height="30" uuid="eaadea8a-ec1e-43a9-b40d-942236495cc3"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="19"/>
+					<paragraph lineSpacing="Single"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{nombreEmp}]]></textFieldExpression>
+			</textField>
+			<image hAlign="Center" vAlign="Middle">
+				<reportElement stretchType="RelativeToBandHeight" x="60" y="20" width="130" height="133" uuid="73b0a6ec-ca85-4810-a486-c4acd01abe51"/>
+				<imageExpression><![CDATA[$F{QR}]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="60" y="183" width="130" height="30" uuid="fcf2adc3-0761-4700-95d4-6e9af3c8a728"/>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font size="14"/>
+				</textElement>
+				<text><![CDATA[Empleado]]></text>
+			</staticText>
+		</band>
+	</title>
+	<columnHeader>
+		<band height="10" splitType="Stretch"/>
+	</columnHeader>
+</jasperReport>

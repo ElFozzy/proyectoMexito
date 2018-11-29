@@ -40,7 +40,14 @@ public class empleadoDAL {
             return ComandoEjecutado.getInt(1);
         } catch (SQLException ex) {
             Logger.getLogger(empleadoDAL.class.getName()).log(Level.SEVERE, null, ex);
+        }finally{
+            try {
+                ComandoEjecutado.close();
+            } catch (SQLException ex) {
+                Logger.getLogger(empleadoDAL.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
+        
         return 0;
     }
         

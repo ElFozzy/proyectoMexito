@@ -5,6 +5,8 @@
  */
 package DAL;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 /**
  *
@@ -24,11 +26,9 @@ public class Conexion {
     }
     
     public Connection Conectar(){
-        try{
-            Class.forName("org.sqlite.JDBC");
-            this.conn = DriverManager.getConnection(conexion);
-            Class.forName("org.sqlite.JDBC");         
-            this.conn = DriverManager.getConnection(conexPat);
+        try{         
+            this.conn = DriverManager.getConnection(conexPatF);
+            
             System.out.println("Conectado");
         }catch(Exception ex){
             System.err.println("Problemas al conectarse " + ex);
@@ -40,15 +40,17 @@ public class Conexion {
         this.conn = null;
     }
     
-    public int EjecutarComandoSQL(String Sentencia){
+    public int EjecutarComandoSQL(String Sentencia){        
         try {
-            PreparedStatement pstm=Conectar().prepareStatement(Sentencia);
+            PreparedStatement pstm = Conectar().prepareStatement(Sentencia);
             pstm.execute();
             Desconectar();
+            pstm.close();
             return 1;
         }catch (SQLException e) {
             System.out.println(e);
         return 0;
+        }finally{
         }
 
     }
@@ -59,6 +61,7 @@ public class Conexion {
             PreparedStatement pstm= Sentencia;
    
             pstm.execute();
+            
             return 1;
         }catch (SQLException e) {
             System.out.println(e);
@@ -67,9 +70,9 @@ public class Conexion {
 
     }
     
-    public ResultSet EjecutarSentenciaSQL(String Sentencia){
-         try {
-                PreparedStatement pstm=Conectar().prepareStatement(Sentencia);
+    public ResultSet EjecutarSentenciaSQL(String Sentencia){ 
+        try {
+                PreparedStatement pstm =pstm=Conectar().prepareStatement(Sentencia);
                 pstm.execute();
                 ResultSet Resultado=pstm.executeQuery();
                 Desconectar();

@@ -19,8 +19,6 @@ public class ControlEmpleados {
      */
     public static void main(String[] args) {
         // TODO code application logic here
-        Conexion con = new Conexion();
-        con.Conectar();
         Login login = new Login();
         login.setVisible(true);
     }
