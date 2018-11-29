@@ -384,8 +384,8 @@ public class GestionEmpleados extends javax.swing.JFrame {
                     .addComponent(btnLimpiar)
                     .addComponent(btnGenerarQR))
                 .addGap(18, 18, 18)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(21, Short.MAX_VALUE))
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                .addContainerGap())
         );
 
         pack();
@@ -401,7 +401,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
         cboSexo.setSelectedItem(target.getValueAt(row,3));
         dtIngreso.setDate(new Date(target.getValueAt(row,4).toString()));
         dtRetiro.setDate(new Date(target.getValueAt(row,5).toString()));
-        cboTurno.setSelectedItem(target.getValueAt(row,6));  
+        cboTurno.setSelectedItem(target.getValueAt(row,7));  
         String r = target.getValueAt(row, 2).toString();
         txtFoto.setText(r);
         ImageIcon icon = new ImageIcon(r);
@@ -419,8 +419,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
         txtIDQR.setText(Integer.toString(qrid));
         String idUser = txtIDQR.getText();
         generarQR(idUser);        
-        objempDAL.AgregarQR(RecolectarQR());
-        objempDAL.Agregar(RecolectarDatos());
+        objempDAL.AgregarQR(RecolectarQR());        
         ActualizarEmpleado();
         CleanData();
     }//GEN-LAST:event_btnGuardarActionPerformed

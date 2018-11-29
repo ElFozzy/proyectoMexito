@@ -105,7 +105,8 @@ public class empleadoDAL {
         Resultado.getString(3),
         Resultado.getString(4),
         Resultado.getString(5),
-        Resultado.getString(6),        
+        Resultado.getString(6), 
+        Resultado.getString(7),
         Resultado.getString(8)
             
     };

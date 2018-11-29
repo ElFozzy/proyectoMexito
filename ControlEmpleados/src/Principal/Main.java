@@ -21,7 +21,8 @@ public class Main {
         // TODO code application logic here
         Conexion con = new Conexion();        
         con.Conectar();     
-        
+        GestionEmpleados emp = new GestionEmpleados();
+        emp.setVisible(true);
     }
     
 }
