@@ -7,6 +7,7 @@ package DAL;
 import BL.empleadoBL;
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
@@ -27,10 +28,22 @@ public class empleadoDAL {
     }
     
     public int AgregarQR(empleadoBL objemp){
-        int ComandoEjecutado = con.EjecutarComandoSQL("Update Empleados set QR='"+objemp.getqr()+"' where id=(Select last_insert_rowid());");
+        int ComandoEjecutado = con.EjecutarComandoSQL("Update Empleados set QR='"+objemp.getqr()+"' where id='"+objemp.getIDQR()+"'");
         con.Desconectar();
         return ComandoEjecutado;
     }
+    
+    public int obtenerIdFinal(){
+        ResultSet ComandoEjecutado = con.EjecutarSentenciaSQL("Select MAX(id)from empleados;");
+        con.Desconectar();
+        try {
+            return ComandoEjecutado.getInt(1);
+        } catch (SQLException ex) {
+            Logger.getLogger(empleadoDAL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return 0;
+    }
+        
     
     public int Eliminar (empleadoBL objemp){
         int ComandoEjecutado = con.EjecutarComandoSQL("Delete from Empleados where id='"+objemp.getId()+"'");

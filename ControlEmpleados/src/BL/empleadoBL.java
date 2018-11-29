@@ -21,6 +21,7 @@ public class empleadoBL {
     public String fechaRet;
     public String turno;
     public String qr;
+    public int IDQR;
     
     public int getId(){
         return id;        
@@ -29,6 +30,15 @@ public class empleadoBL {
     public void setId(int id){
         this.id = id;
     }
+    
+    public int getIDQR(){
+        return IDQR;
+    }
+    
+    public void setIDQR(int IDQR){
+        this.IDQR = IDQR;
+    }
+        
     
     public String getnombreEmp(){
         return nombreEmp;
@@ -82,7 +92,7 @@ public class empleadoBL {
         return qr;
     }
     
-    public void serqr(String qr){
+    public void setqr(String qr){
         this.qr = qr;
     }
     
