@@ -10,6 +10,7 @@ import DAL.DiasInhabilesDAL;
 import java.sql.Date;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -127,7 +128,15 @@ public class DiasInhabiles extends javax.swing.JFrame {
         diaInhabil.setDia(Integer.parseInt(diaFormat.format(date)));
         
         DateFormat mesFormat = new SimpleDateFormat("MM");
-        diaInhabil.setMes(Integer.parseInt(diaFormat.format(date)));
+        diaInhabil.setMes(Integer.parseInt(mesFormat.format(date)));
+        if(chkDiaIn.isSelected())
+        {
+            diasInhabiles.Agregar(diaInhabil);
+        }else{
+            diasInhabiles.Eliminar(diaInhabil);
+        }
+        
+        JOptionPane.showMessageDialog(null, "Cambio guardado");
         
         
     }//GEN-LAST:event_btnGuardarActionPerformed

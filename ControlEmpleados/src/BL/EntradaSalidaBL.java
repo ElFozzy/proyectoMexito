@@ -15,7 +15,7 @@ import java.sql.Time;
 public class EntradaSalidaBL {
     
     private int idEmpleado;
-    private String fecha;
+    private Date fecha;
     private Time hora;
     private int tipo; 
 
@@ -27,11 +27,11 @@ public class EntradaSalidaBL {
         this.idEmpleado = idEmpleado;
     }
 
-    public String getFecha() {
+    public Date getFecha() {
         return fecha;
     }
 
-    public void setFecha(String fecha) {
+    public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
 

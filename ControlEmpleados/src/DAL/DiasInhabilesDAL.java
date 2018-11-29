@@ -22,6 +22,12 @@ public class DiasInhabilesDAL {
         return ComandoEjecutado;
     }
     
+    public int Eliminar(DiasInhabilesBL dia){
+        int ComandoEjecutado = conexion.EjecutarComandoSQL("DELETE FROM DiasInhabiles WHERE dia ='"+dia.getDia()+"'AND mes='"+dia.getMes()+"'");
+        conexion.Desconectar();
+        return ComandoEjecutado;
+    }
+    
     public boolean IsDiaInhabil(int dia, int mes){
          boolean is = false; 
          ResultSet Resultado=conexion.EjecutarSentenciaSQL("SELECT * FROM DiasInhabiles where Mes='"+dia+"' and Dia='"+mes+"'");

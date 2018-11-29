@@ -23,7 +23,7 @@ public class EntradaSalidaDAL {
     
     public int AgregarEntrada (EntradaSalidaBL EntSal){
         int ComandoEjecutado = con.EjecutarComandoSQL("Insert into Ent_Sal (idEmp, fecha, hora, tipo) "
-                + "values  ('"+EntSal.getIdEmpleado()+"','"+EntSal.getFecha().toString()+"','"+EntSal.getHora().toString()+"','"+EntSal.getTipo()+"');");
+                + "values  ('"+EntSal.getIdEmpleado()+"','"+EntSal.getFecha().getTime()+"','"+EntSal.getHora().toString()+"','"+EntSal.getTipo()+"');");
         con.Desconectar();
         return ComandoEjecutado;
     }

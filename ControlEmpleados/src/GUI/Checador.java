@@ -106,7 +106,7 @@ public class Checador extends javax.swing.JFrame {
                     int dia1 = (Integer.parseInt(diaFormat.format(fechaActual)));
                     
                     DateFormat mesFormat = new SimpleDateFormat("MM");
-                    int mes = (Integer.parseInt(diaFormat.format(fechaActual)));
+                    int mes = (Integer.parseInt(mesFormat.format(fechaActual)));
                     //dia.setMes(11);
 
                     if(re != null){
@@ -121,7 +121,7 @@ public class Checador extends javax.swing.JFrame {
 
                             EntradaSalidaBL entSal = new EntradaSalidaBL();
                             entSal.setIdEmpleado(empleado.getId());
-                            entSal.setFecha(formatobd.format(fechaActual));
+                            entSal.setFecha(new java.sql.Date(fechaActual.getTime()));
                             entSal.setHora(new java.sql.Time(fechaActual.getTime()));
                             if(rdEntrada.isSelected()){
 
