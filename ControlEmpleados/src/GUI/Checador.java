@@ -103,19 +103,20 @@ public class Checador extends javax.swing.JFrame {
                     
                     DiasInhabilesBL dia = new DiasInhabilesBL();
                     DateFormat diaFormat = new SimpleDateFormat("dd");
-                    //dia.setDia(Integer.parseInt(diaFormat.format(fechaActual)));
-                    //dia.setDia(10);
+                    int dia1 = (Integer.parseInt(diaFormat.format(fechaActual)));
+                    
                     DateFormat mesFormat = new SimpleDateFormat("MM");
-                    dia.setMes(Integer.parseInt(diaFormat.format(fechaActual)));
+                    int mes = (Integer.parseInt(diaFormat.format(fechaActual)));
                     //dia.setMes(11);
 
                     if(re != null){
-                        if(true){
+                        if(dias.IsDiaInhabil(dia1, mes)){
                         empleadoBL empleado;
                         try {
                             empleado = empleados.BuscarEmpleado(Integer.parseInt(re));
                             lblNombre.setText(empleado.getnombreEmp());
-                       
+                            lblImagen.setIcon(new ImageIcon(empleado.getfoto()));
+                            
                             DateFormat formatobd = new SimpleDateFormat("dd/MM/yyyy");
 
                             EntradaSalidaBL entSal = new EntradaSalidaBL();
