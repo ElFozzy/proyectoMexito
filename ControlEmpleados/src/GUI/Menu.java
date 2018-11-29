@@ -5,6 +5,7 @@
  */
 package GUI;
 
+import Reportes.Reporte1;
 import javax.swing.JOptionPane;
 
 /**
@@ -160,7 +161,9 @@ public class Menu extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCalendarioActionPerformed
 
     private void btnReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReportesActionPerformed
-        // TODO add your handling code here:        
+        // TODO add your handling code here:  
+        Reporte1 GenerarReport = new Reporte1();
+        GenerarReport.ReporteEmpleados();
     }//GEN-LAST:event_btnReportesActionPerformed
 
     private void btnLogOutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLogOutActionPerformed

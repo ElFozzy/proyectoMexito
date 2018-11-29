@@ -107,6 +107,8 @@ public class GestionEmpleados extends javax.swing.JFrame {
             objempBL.setfechaRet(fechaRetiro);
             objempBL.setturno(turno);
             objempBL.setfoto(txtFoto.getText());                                                            
+            objempBL.setfoto(txtFoto.getText());
+                                
         return objempBL;
     }
     
@@ -327,6 +329,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
                             .addComponent(txtRutaQr, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtIDQR, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -368,6 +371,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtIDQR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(17, 17, 17)
+                .addGap(73, 73, 73)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnEditar)
@@ -393,7 +397,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
         cboSexo.setSelectedItem(target.getValueAt(row,3));
         dtIngreso.setDate(new Date(target.getValueAt(row,4).toString()));
         dtRetiro.setDate(new Date(target.getValueAt(row,5).toString()));
-        cboTurno.setSelectedItem(target.getValueAt(row,7));  
+        cboTurno.setSelectedItem(target.getValueAt(row,6));  
         String r = target.getValueAt(row, 2).toString();
         txtFoto.setText(r);
         ImageIcon icon = new ImageIcon(r);
@@ -405,12 +409,14 @@ public class GestionEmpleados extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+
         objempDAL.Agregar(RecolectarDatos());         
         int qrid = objempDAL.obtenerIdFinal();
         txtIDQR.setText(Integer.toString(qrid));
         String idUser = txtIDQR.getText();
         generarQR(idUser);        
         objempDAL.AgregarQR(RecolectarQR());
+        objempDAL.Agregar(RecolectarDatos());
         ActualizarEmpleado();
         CleanData();
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -498,7 +504,10 @@ public class GestionEmpleados extends javax.swing.JFrame {
     }
     
     private void btnGenerarQRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarQRActionPerformed
-        // TODO add your handling code here:                
+        // TODO add your handling code here:
+        String idUser = txtId.getText();
+        generarQR(idUser);
+        
     }//GEN-LAST:event_btnGenerarQRActionPerformed
 
     private void txtIDQRActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtIDQRActionPerformed
@@ -573,6 +582,5 @@ public class GestionEmpleados extends javax.swing.JFrame {
     private javax.swing.JTextField txtIDQR;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtRutaQr;
     // End of variables declaration//GEN-END:variables
 }
