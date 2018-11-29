@@ -263,6 +263,12 @@ public class GestionEmpleados extends javax.swing.JFrame {
             }
         });
 
+        txtRutaQr.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txtRutaQrActionPerformed(evt);
+            }
+        });
+
         txtIDQR.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtIDQRActionPerformed(evt);
@@ -329,7 +335,6 @@ public class GestionEmpleados extends javax.swing.JFrame {
                             .addComponent(txtRutaQr, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtIDQR, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))))
-                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -370,8 +375,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
                 .addComponent(txtRutaQr, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtIDQR, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17)
-                .addGap(73, 73, 73)
+                .addGap(90, 90, 90)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnGuardar)
                     .addComponent(btnEditar)
@@ -514,6 +518,11 @@ public class GestionEmpleados extends javax.swing.JFrame {
         
     }//GEN-LAST:event_txtIDQRActionPerformed
 
+    private void txtRutaQrActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtRutaQrActionPerformed
+        // TODO add your handling code here:
+        
+    }//GEN-LAST:event_txtRutaQrActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -582,5 +591,6 @@ public class GestionEmpleados extends javax.swing.JFrame {
     private javax.swing.JTextField txtIDQR;
     private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtNombre;
+    private javax.swing.JTextField txtRutaQr;
     // End of variables declaration//GEN-END:variables
 }
