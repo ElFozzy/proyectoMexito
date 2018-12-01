@@ -8,6 +8,8 @@ package DAL;
 import BL.DiasInhabilesBL;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -30,7 +32,7 @@ public class DiasInhabilesDAL {
     
     public boolean IsDiaInhabil(int dia, int mes){
          boolean is = false; 
-         ResultSet Resultado=conexion.EjecutarSentenciaSQL("SELECT * FROM DiasInhabiles where Mes='"+dia+"' and Dia='"+mes+"'");
+         ResultSet Resultado=conexion.EjecutarSentenciaSQL("SELECT * FROM DiasInhabiles where Mes='"+mes+"' and Dia='"+dia+"'");
         try {
             if(Resultado.next())
             {
@@ -38,6 +40,15 @@ public class DiasInhabilesDAL {
             }
         } catch (SQLException ex) {
             
+        }finally{
+             try {
+                 Resultado.close();
+             } catch (SQLException ex) {
+                 Logger.getLogger(DiasInhabilesDAL.class.getName()).log(Level.SEVERE, null, ex);
+             }
+           
+           
+        
         }
         conexion.Desconectar();
          return is;

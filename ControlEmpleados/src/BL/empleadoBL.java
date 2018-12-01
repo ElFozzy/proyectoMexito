@@ -6,6 +6,7 @@
 package BL;
 
 import java.io.InputStream;
+import java.sql.Time;
 
 /**
  *
@@ -13,15 +14,17 @@ import java.io.InputStream;
  */
 public class empleadoBL {
     
-    public int id;
-    public String nombreEmp;
-    public String foto;
-    public String sexo;
-    public String fechaIng;
-    public String fechaRet;
-    public String turno;
-    public String qr;
-    public int IDQR;
+    private int id;
+    private String nombreEmp;
+    private String foto;
+    private String sexo;
+    private String fechaIng;
+    private String fechaRet;
+    private String turno;
+    private String qr;
+    private int IDQR;
+    private Time horaEntrada;
+    private Time horaSalida;
     
     public int getId(){
         return id;        
@@ -95,5 +98,27 @@ public class empleadoBL {
     public void setqr(String qr){
         this.qr = qr;
     }
+    
+    public Time getHoraEntrada()
+    {
+        return this.horaEntrada;
+    }
+    
+    public void setHoraEntrada(Time horaEntrada)
+    {
+        this.horaEntrada = horaEntrada;
+    }
+    
+    public Time getHoraSalida()
+    {
+        return this.horaSalida;
+    }
+    
+    public void setHoraSalida(Time horaSalida)
+    {
+        this.horaSalida = horaSalida;
+    }
+    
+    
     
 }

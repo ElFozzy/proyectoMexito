@@ -17,7 +17,6 @@ public class EntradaSalidaBL {
     private int idEmpleado;
     private Date fecha;
     private Time hora;
-    private int tipo; 
 
     public int getIdEmpleado() {
         return idEmpleado;
@@ -43,14 +42,4 @@ public class EntradaSalidaBL {
         this.hora = hora;
     }
 
-    public int getTipo() {
-        return tipo;
-    }
-
-    public void setTipo(int tipo) {
-        this.tipo = tipo;
-    }
-    
-    
-    
 }

@@ -21,8 +21,8 @@ public class empleadoDAL {
     Conexion con = new Conexion();
           
     public int Agregar (empleadoBL objemp){
-        int ComandoEjecutado = con.EjecutarComandoSQL("Insert into Empleados (nombreEmp, sexo, foto, fechaIng, fechaRet, turno) "
-                + "values  ('"+objemp.getnombreEmp()+"','"+objemp.getsexo()+"','"+objemp.getfoto()+"','"+objemp.getfechaIng()+"','"+objemp.getfechaRet()+"','"+objemp.getturno()+"');");
+        int ComandoEjecutado = con.EjecutarComandoSQL("Insert into Empleados (nombreEmp, sexo, foto, fechaIng, fechaRet, turno,horaEntrada,horaSalida) "
+                + "values  ('"+objemp.getnombreEmp()+"','"+objemp.getsexo()+"','"+objemp.getfoto()+"','"+objemp.getfechaIng()+"','"+objemp.getfechaRet()+"','"+objemp.getturno()+"','"+objemp.getHoraEntrada()+"','"+objemp.getHoraSalida()+"');");
         con.Desconectar();
         return ComandoEjecutado;
     }
@@ -60,7 +60,7 @@ public class empleadoDAL {
     
     public int Modificar (empleadoBL objemp){
         int ComandoEjecutado = con.EjecutarComandoSQL("Update Empleados set nombreEmp='"+objemp.getnombreEmp()+"', sexo='"+objemp.getsexo()+"', foto='"+objemp.getfoto()+"', fechaIng='"+objemp.getfechaIng()+"', "
-                +"fechaRet='"+objemp.getfechaRet()+"', turno='"+objemp.getturno()+"' where id='"+objemp.getId()+"'");
+                +"fechaRet='"+objemp.getfechaRet()+"', turno='"+objemp.getturno()+"', horaEntrada='"+objemp.getHoraEntrada()+"', horaSalida='"+objemp.getHoraSalida()+"' where id='"+objemp.getId()+"'");
         con.Desconectar();
         return ComandoEjecutado;
     }

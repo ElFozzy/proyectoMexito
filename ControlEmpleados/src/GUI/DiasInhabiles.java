@@ -17,7 +17,7 @@ import javax.swing.JOptionPane;
  * @author Daniel
  */
 public class DiasInhabiles extends javax.swing.JFrame {
-
+    DiasInhabilesDAL diasInhabiles = new DiasInhabilesDAL();
     /**
      * Creates new form DiasInhabiles
      */
@@ -120,7 +120,6 @@ public class DiasInhabiles extends javax.swing.JFrame {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        DiasInhabilesDAL diasInhabiles = new DiasInhabilesDAL();
         DiasInhabilesBL diaInhabil = new DiasInhabilesBL();
         Date date = new Date(calendario.getDate().getTime());
         
@@ -143,11 +142,25 @@ public class DiasInhabiles extends javax.swing.JFrame {
 
     private void calendarioPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calendarioPropertyChange
         // TODO add your handling code here:
+        
+        DiasInhabilesBL diaInhabil = new DiasInhabilesBL();
         Date date = new Date(calendario.getDate().getTime());
-        String Fecha = "2018-11-24";
-        DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
-        if(Fecha.equals(format.format(date)))
-            System.out.println(date);
+        DateFormat Mesformat = new SimpleDateFormat("MM");
+        DateFormat Diaformat = new SimpleDateFormat("dd");
+        
+        diaInhabil.setDia(Integer.parseInt(Diaformat.format(date)));
+        diaInhabil.setMes(Integer.parseInt(Mesformat.format(date)));
+        
+        if(diasInhabiles.IsDiaInhabil(diaInhabil.getDia(), diaInhabil.getMes()))
+        {
+            chkDiaIn.setSelected(true);
+        }
+        else{
+            chkDiaIn.setSelected(false);
+        }
+        
+        
+        
         
             
         

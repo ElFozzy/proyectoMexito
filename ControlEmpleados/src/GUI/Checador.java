@@ -124,14 +124,13 @@ public class Checador extends javax.swing.JFrame {
                             entSal.setFecha(new java.sql.Date(fechaActual.getTime()));
                             entSal.setHora(new java.sql.Time(fechaActual.getTime()));
                             if(rdEntrada.isSelected()){
-
+                                entradasSalidas.AgregarEntrada(entSal);
                                 lblMensaje.setText("Entrada Registrada");
-                                entSal.setTipo(0);
                             }else if(rdSalida.isSelected()){
-                                entSal.setTipo(1);
                                 lblMensaje.setText("Salida Registrada");
+                                entradasSalidas.AgregarSalida(entSal);
                             }
-                            entradasSalidas.AgregarEntrada(entSal);
+                            
 
                             lblIcono.setVisible(true); 
                             lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/002-checked.png")));
@@ -238,6 +237,7 @@ public class Checador extends javax.swing.JFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Opciones"));
 
+        rdEntrada.setSelected(true);
         rdEntrada.setText("Entrada");
         rdEntrada.setActionCommand("radioEnt");
         rdEntrada.addActionListener(new java.awt.event.ActionListener() {
