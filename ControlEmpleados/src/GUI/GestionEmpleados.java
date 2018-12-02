@@ -11,6 +11,7 @@ import DAL.Conexion;
  * and open the template in the editor.
  */
 import BL.empleadoBL;
+import DAL.DiasLaboralesDAL;
 import DAL.empleadoDAL;
 import Reportes.ReporteGafete;
 import com.barcodelib.barcode.QRCode;
@@ -23,6 +24,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.sql.Time;
+import java.util.ArrayList;
 import java.util.Date;
 import static java.util.Locale.filter;
 import java.util.logging.Level;
@@ -32,7 +34,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JSpinner;
 import javax.swing.JTable;
+import javax.swing.SpinnerDateModel;
 import javax.swing.filechooser.FileNameExtensionFilter;
 /**
  *
@@ -45,11 +49,15 @@ public class GestionEmpleados extends javax.swing.JFrame {
 
     empleadoBL objempBL = new empleadoBL();
     empleadoDAL objempDAL = new empleadoDAL();
+    DiasLaboralesDAL laborales = new DiasLaboralesDAL();
     int udm = 0, resol = 72, rot=0;
     float mi = 5.000f, md = 5.000f, ms = 5.000f, min = 5.000f, tam=50.00f;
     
     private JPanel contentPane;
     File fichero = null;
+    
+    ArrayList dias = new ArrayList();
+    
     /**
      * Creates new form Add_Employed
      */
@@ -84,7 +92,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
     }
     
     public empleadoBL RecolectarDatos(){            
-              
+        dias = new ArrayList();
             int id = Integer.parseInt(txtId.getText());
             String fechaIngreso = dtIngreso.getDate().toString();
             String fechaRetiro = dtRetiro.getDate().toString();
@@ -111,23 +119,24 @@ public class GestionEmpleados extends javax.swing.JFrame {
             objempBL.setfoto(txtFoto.getText());                                                            
             objempBL.setfoto(txtFoto.getText());
             
-            if(cmbHourEnt.getSelectedIndex() == 1)
-            {
-                objempBL.setHoraEntrada(new Time(Integer.parseInt(spinHourEnt.getValue().toString())+12, Integer.parseInt(spinMinEnt.getValue().toString()), 00));
-            }else{
-                objempBL.setHoraEntrada(new Time(Integer.parseInt(spinHourEnt.getValue().toString())+12, Integer.parseInt(spinMinEnt.getValue().toString()), 00));
-            }
+            objempBL.setHoraEntrada(tpEnt.getText());
+            objempBL.setHoraSalida(tpSal.getText());
             
-            if(cmbHourSal.getSelectedIndex() == 1)
-            {
-                objempBL.setHoraSalida(new Time(Integer.parseInt(spinHourSal.getValue().toString()), Integer.parseInt(spinMinSal.getValue().toString()), 00));
-            }else{
-                objempBL.setHoraSalida(new Time(Integer.parseInt(spinHourSal.getValue().toString()), Integer.parseInt(spinMinSal.getValue().toString()), 00));
-            }
-            
-           
-            
-                                
+            if(chkLunes.isSelected())
+                dias.add(1);
+            if(chkMartes.isSelected())
+                dias.add(2);
+            if(chkMiercoles.isSelected())
+                dias.add(3);
+            if(chkJuves.isSelected())
+                dias.add(4);
+            if(chkViernes.isSelected())
+                dias.add(5);
+            if(chkSabado.isSelected())
+                dias.add(6); 
+            if(chkDomingo.isSelected())
+                dias.add(7);
+                            
         return objempBL;
     }
     
@@ -175,15 +184,17 @@ public class GestionEmpleados extends javax.swing.JFrame {
         lbLoadImage = new javax.swing.JLabel();
         btnGenerarQR = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
-        jLabel8 = new javax.swing.JLabel();
-        spinHourEnt = new javax.swing.JSpinner();
-        spinMinEnt = new javax.swing.JSpinner();
-        cmbHourEnt = new javax.swing.JComboBox<>();
         jLabel9 = new javax.swing.JLabel();
-        jLabel10 = new javax.swing.JLabel();
-        spinHourSal = new javax.swing.JSpinner();
-        spinMinSal = new javax.swing.JSpinner();
-        cmbHourSal = new javax.swing.JComboBox<>();
+        tpEnt = new com.github.lgooddatepicker.components.TimePicker();
+        tpSal = new com.github.lgooddatepicker.components.TimePicker();
+        jPanel1 = new javax.swing.JPanel();
+        chkLunes = new javax.swing.JCheckBox();
+        chkMartes = new javax.swing.JCheckBox();
+        chkMiercoles = new javax.swing.JCheckBox();
+        chkJuves = new javax.swing.JCheckBox();
+        chkViernes = new javax.swing.JCheckBox();
+        chkSabado = new javax.swing.JCheckBox();
+        chkDomingo = new javax.swing.JCheckBox();
 
         txtRutaQr.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -311,159 +322,186 @@ public class GestionEmpleados extends javax.swing.JFrame {
 
         jLabel7.setText("Hora de entrada:");
 
-        jLabel8.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel8.setText(":");
-
-        spinHourEnt.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
-
-        spinMinEnt.setModel(new javax.swing.SpinnerNumberModel(1, 1, 59, 1));
-
-        cmbHourEnt.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "p.m", "a.m" }));
-        cmbHourEnt.setToolTipText("");
-
         jLabel9.setText("Hora de salida:");
 
-        jLabel10.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        jLabel10.setText(":");
+        jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Dias a laborar"));
 
-        spinHourSal.setModel(new javax.swing.SpinnerNumberModel(1, 1, 12, 1));
+        chkLunes.setText("Lunes");
 
-        spinMinSal.setModel(new javax.swing.SpinnerNumberModel(1, 1, 59, 1));
+        chkMartes.setText("Martes");
+        chkMartes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkMartesActionPerformed(evt);
+            }
+        });
 
-        cmbHourSal.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "p.m", "a.m" }));
-        cmbHourSal.setToolTipText("");
+        chkMiercoles.setText("Miercoles");
+        chkMiercoles.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkMiercolesActionPerformed(evt);
+            }
+        });
+
+        chkJuves.setText("Jueves");
+
+        chkViernes.setText("Viernes");
+
+        chkSabado.setText("Sabado");
+
+        chkDomingo.setText("Domingo");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(chkLunes)
+                .addGap(10, 10, 10)
+                .addComponent(chkMartes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkMiercoles)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkJuves)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkViernes)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(chkSabado)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(chkDomingo)
+                .addContainerGap(20, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                .addComponent(chkLunes)
+                .addComponent(chkMartes)
+                .addComponent(chkMiercoles)
+                .addComponent(chkJuves)
+                .addComponent(chkViernes)
+                .addComponent(chkSabado)
+                .addComponent(chkDomingo))
+        );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(10, 10, 10)
+                .addComponent(lbLoadImage, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8)
-                                .addGap(63, 63, 63))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnLimpiar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEditar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnEliminar)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btnGenerarQR)
-                        .addGap(77, 77, 77))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(btnSelectImage, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)
-                            .addComponent(lbLoadImage, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(42, 42, 42)
+                        .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel2)
+                        .addGap(4, 4, 4)
+                        .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel4)
+                        .addGap(4, 4, 4)
+                        .addComponent(dtIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(42, 42, 42)
-                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel2)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel3)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel7, javax.swing.GroupLayout.Alignment.TRAILING)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
-                                                .addComponent(spinHourEnt, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                                .addComponent(spinMinEnt, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(cmbHourEnt, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                                            .addComponent(cboSexo, javax.swing.GroupLayout.Alignment.LEADING, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                            .addComponent(dtIngreso, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE))
-                                        .addGap(18, 18, 18)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(jLabel5)
-                                                    .addComponent(jLabel6))
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                    .addComponent(cboTurno, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(dtRetiro, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                                            .addGroup(layout.createSequentialGroup()
-                                                .addComponent(jLabel9)
-                                                .addGap(16, 16, 16)
-                                                .addComponent(spinHourSal, javax.swing.GroupLayout.PREFERRED_SIZE, 48, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(jLabel10, javax.swing.GroupLayout.PREFERRED_SIZE, 7, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(spinMinSal, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                                .addComponent(cmbHourSal, 0, 49, Short.MAX_VALUE))))
-                                    .addComponent(txtNombre))))
-                        .addGap(113, 113, 113))))
+                        .addComponent(jLabel5)
+                        .addGap(4, 4, 4)
+                        .addComponent(dtRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(1, 1, 1)
+                        .addComponent(jLabel3)
+                        .addGap(64, 64, 64)
+                        .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel6)
+                        .addGap(52, 52, 52)
+                        .addComponent(cboTurno, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addComponent(jLabel7)
+                        .addGap(4, 4, 4)
+                        .addComponent(tpEnt, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabel9)
+                        .addGap(4, 4, 4)
+                        .addComponent(tpSal, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(btnSelectImage, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(65, 65, 65)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(btnLimpiar)
+                .addGap(170, 170, 170)
+                .addComponent(btnGuardar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnEditar)
+                .addGap(18, 18, 18)
+                .addComponent(btnEliminar)
+                .addGap(6, 6, 6)
+                .addComponent(btnGenerarQR))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(10, 10, 10)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 765, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(11, 11, 11)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbLoadImage, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel4)
-                                .addGap(18, 18, 18)
+                                .addGap(8, 8, 8)
+                                .addComponent(jLabel2))
+                            .addComponent(txtNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel4)
+                            .addComponent(dtIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabel5))
+                            .addComponent(dtRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
                                 .addComponent(jLabel3))
+                            .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(dtIngreso, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel5)
-                                    .addComponent(dtRetiro, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(cboSexo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(cboTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel6))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGap(3, 3, 3)
+                                .addComponent(jLabel6))
+                            .addComponent(cboTurno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(6, 6, 6)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(spinMinEnt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(spinMinSal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(spinHourSal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel9)
-                                .addComponent(cmbHourSal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel10))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                .addComponent(jLabel8)
-                                .addComponent(spinHourEnt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel7)
-                                .addComponent(cmbHourEnt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                    .addComponent(lbLoadImage, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnSelectImage)
-                .addGap(18, 18, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(4, 4, 4)
+                                .addComponent(jLabel7))
+                            .addComponent(tpEnt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel9)
+                            .addComponent(tpSal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addGap(5, 5, 5)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnSelectImage)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(13, 13, 13)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnLimpiar)
                     .addComponent(btnGuardar)
                     .addComponent(btnEditar)
                     .addComponent(btnEliminar)
-                    .addComponent(btnLimpiar)
                     .addComponent(btnGenerarQR))
-                .addGap(18, 18, 18)
+                .addGap(7, 7, 7)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
@@ -498,7 +536,12 @@ public class GestionEmpleados extends javax.swing.JFrame {
         txtIDQR.setText(Integer.toString(qrid));
         String idUser = txtIDQR.getText();
         generarQR(idUser);        
-        objempDAL.AgregarQR(RecolectarQR());        
+        objempDAL.AgregarQR(RecolectarQR());
+        
+        for(int i=0; i<dias.size(); i++){
+            laborales.AgregarDiaLaboral(Integer.parseInt(idUser), Integer.parseInt(dias.get(i).toString()));
+        }
+                
         ActualizarEmpleado();
         CleanData();
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -542,6 +585,14 @@ public class GestionEmpleados extends javax.swing.JFrame {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         objempDAL.Modificar(RecolectarDatos());
+        
+        laborales.EliminarDiasLaborales(objempBL.getId());
+        
+        for(int i=0; i<dias.size(); i++){
+            laborales.AgregarDiaLaboral(objempBL.getId(), Integer.parseInt(dias.get(i).toString()));
+        }
+
+        
         ActualizarEmpleado();
         CleanData();
     }//GEN-LAST:event_btnEditarActionPerformed
@@ -601,6 +652,14 @@ public class GestionEmpleados extends javax.swing.JFrame {
         
     }//GEN-LAST:event_txtRutaQrActionPerformed
 
+    private void chkMartesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMartesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkMartesActionPerformed
+
+    private void chkMiercolesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkMiercolesActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_chkMiercolesActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -652,28 +711,30 @@ public class GestionEmpleados extends javax.swing.JFrame {
     private javax.swing.JButton btnSelectImage;
     private javax.swing.JComboBox<String> cboSexo;
     private javax.swing.JComboBox<String> cboTurno;
-    private javax.swing.JComboBox<String> cmbHourEnt;
-    private javax.swing.JComboBox<String> cmbHourSal;
+    private javax.swing.JCheckBox chkDomingo;
+    private javax.swing.JCheckBox chkJuves;
+    private javax.swing.JCheckBox chkLunes;
+    private javax.swing.JCheckBox chkMartes;
+    private javax.swing.JCheckBox chkMiercoles;
+    private javax.swing.JCheckBox chkSabado;
+    private javax.swing.JCheckBox chkViernes;
     private org.jdesktop.swingx.JXDatePicker dtIngreso;
     private org.jdesktop.swingx.JXDatePicker dtRetiro;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXDatePicker jXDatePicker3;
     private javax.swing.JLabel lbLoadImage;
-    private javax.swing.JSpinner spinHourEnt;
-    private javax.swing.JSpinner spinHourSal;
-    private javax.swing.JSpinner spinMinEnt;
-    private javax.swing.JSpinner spinMinSal;
     private javax.swing.JTable tbEmpleados;
+    private com.github.lgooddatepicker.components.TimePicker tpEnt;
+    private com.github.lgooddatepicker.components.TimePicker tpSal;
     private javax.swing.JTextField txtFoto;
     private javax.swing.JTextField txtIDQR;
     private javax.swing.JTextField txtId;

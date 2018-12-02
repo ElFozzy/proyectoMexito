@@ -23,8 +23,8 @@ public class empleadoBL {
     private String turno;
     private String qr;
     private int IDQR;
-    private Time horaEntrada;
-    private Time horaSalida;
+    private String horaEntrada;
+    private String horaSalida;
     
     public int getId(){
         return id;        
@@ -99,22 +99,22 @@ public class empleadoBL {
         this.qr = qr;
     }
     
-    public Time getHoraEntrada()
+    public String getHoraEntrada()
     {
         return this.horaEntrada;
     }
     
-    public void setHoraEntrada(Time horaEntrada)
+    public void setHoraEntrada(String horaEntrada)
     {
         this.horaEntrada = horaEntrada;
     }
     
-    public Time getHoraSalida()
+    public String getHoraSalida()
     {
         return this.horaSalida;
     }
     
-    public void setHoraSalida(Time horaSalida)
+    public void setHoraSalida(String horaSalida)
     {
         this.horaSalida = horaSalida;
     }

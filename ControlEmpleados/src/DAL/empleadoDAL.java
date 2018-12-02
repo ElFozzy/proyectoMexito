@@ -27,6 +27,8 @@ public class empleadoDAL {
         return ComandoEjecutado;
     }
     
+    
+    
     public int AgregarQR(empleadoBL objemp){
         int ComandoEjecutado = con.EjecutarComandoSQL("Update Empleados set QR='"+objemp.getqr()+"' where id='"+objemp.getIDQR()+"'");
         con.Desconectar();
@@ -65,18 +67,19 @@ public class empleadoDAL {
         return ComandoEjecutado;
     }
     
-    public empleadoBL BuscarEmpleado(int id) throws IOException{
+    public empleadoBL BuscarEmpleado(int id) throws IOException, SQLException{
         empleadoBL empleado = new empleadoBL();
-        
+        ResultSet Resultado=con.EjecutarSentenciaSQL("SELECT * FROM Empleados where Id="+id);
         try {
             
             
-            ResultSet Resultado=con.EjecutarSentenciaSQL("SELECT * FROM Empleados where Id="+id);
+            
             if(Resultado.next()){
                 empleado.setId(Resultado.getInt(1));
                 empleado.setnombreEmp(Resultado.getString(2));
                 empleado.setfoto(Resultado.getString(3));
-               
+                empleado.setHoraEntrada(Resultado.getString(9));
+                empleado.setHoraSalida(Resultado.getString(10));
                 
                 
                 
@@ -84,7 +87,9 @@ public class empleadoDAL {
             
         } catch (SQLException ex) {
             Logger.getLogger(empleadoDAL.class.getName()).log(Level.SEVERE, null, ex);
-        }finally{con.Desconectar();}
+        }finally{con.Desconectar();
+            Resultado.close();
+        }
         return empleado;
     }
     
@@ -126,4 +131,7 @@ public class empleadoDAL {
     return null;
     }
     }
+    
+    
+    
 }

@@ -9,6 +9,7 @@ import BL.DiasInhabilesBL;
 import BL.EntradaSalidaBL;
 import BL.empleadoBL;
 import DAL.DiasInhabilesDAL;
+import DAL.DiasLaboralesDAL;
 import DAL.EntradaSalidaDAL;
 import DAL.empleadoDAL;
 import com.github.sarxos.webcam.Webcam;
@@ -32,8 +33,10 @@ import java.io.ByteArrayInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.sql.SQLException;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -53,7 +56,9 @@ public class Checador extends javax.swing.JFrame {
     Webcam webcam;
     DiasInhabilesDAL dias = new DiasInhabilesDAL();
     empleadoDAL empleados = new empleadoDAL();
+    DiasLaboralesDAL laborales = new DiasLaboralesDAL();
     EntradaSalidaDAL entradasSalidas = new EntradaSalidaDAL();
+    empleadoBL empleado;
 
     /**
      * Creates new form Checador
@@ -110,10 +115,23 @@ public class Checador extends javax.swing.JFrame {
                     //dia.setMes(11);
 
                     if(re != null){
-                        if(dias.IsDiaInhabil(dia1, mes)){
-                        empleadoBL empleado;
+                        
+                        
+                        
                         try {
                             empleado = empleados.BuscarEmpleado(Integer.parseInt(re));
+                        } catch (IOException ex) {
+                            Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
+                        } catch (SQLException ex) {
+                            Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+
+                        
+                        
+                        if(!(dias.IsDiaInhabil(dia1, mes)) && (laborales.IsDiaLaboral(empleado.getId(), Calendar.DAY_OF_WEEK))){
+                        
+                        try {
+                           
                             lblNombre.setText(empleado.getnombreEmp());
                             lblImagen.setIcon(new ImageIcon(empleado.getfoto()));
                             
@@ -135,9 +153,9 @@ public class Checador extends javax.swing.JFrame {
                             lblIcono.setVisible(true); 
                             lblIcono.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Iconos/002-checked.png")));
                             lblMensaje.setVisible(true);
-                    } catch (IOException ex) {
-                        Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
-                        }
+                    } catch (Exception ex) {
+                        Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null,ex);
+                     }
                         
                         java.util.Timer timerout = new java.util.Timer();
                         
@@ -156,14 +174,13 @@ public class Checador extends javax.swing.JFrame {
                        
                         
                     }else{
-                        JOptionPane.showMessageDialog(null, "Es inhabil camarada!");
+                        JOptionPane.showMessageDialog(null, "Hoy no deberias trabajar");
                         
                         }
                     }
                 } catch (NotFoundException ex) {
                     Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
                 }
-                
             }
         });
         
