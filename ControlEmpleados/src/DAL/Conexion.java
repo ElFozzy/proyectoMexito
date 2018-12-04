@@ -27,7 +27,7 @@ public class Conexion {
     
     public Connection Conectar(){
         try{         
-            this.conn = DriverManager.getConnection(conexPat);
+            this.conn = DriverManager.getConnection(conexPatF);
             
             System.out.println("Conectado");
         }catch(Exception ex){

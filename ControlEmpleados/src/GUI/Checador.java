@@ -35,6 +35,7 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.sql.SQLException;
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -172,13 +173,31 @@ public class Checador extends javax.swing.JFrame {
                         
                         timerout.schedule(task, 2500,1000);
                        
-                        
+                         DateFormat formatHora = new SimpleDateFormat("HH:mm:ss a");
+                         String hora = formatHora.format(fechaActual);
+                         
+                         Date horaUs = formatHora.parse(empleado.getHoraEntrada());
+                         
+                         if(fechaActual.after(horaUs) && rdEntrada.isSelected()){
+                            JOptionPane.showMessageDialog(null, "Llegaste tarde, muy mal");
+                         
+                         }
+                         
+                         if(fechaActual.before(horaUs) && rdSalida.isSelected())
+                         {
+                            JOptionPane.showMessageDialog(null, "¿A dondé? Estas saliendo muy temprano");
+
+                         }
+                         
+                         
                     }else{
                         JOptionPane.showMessageDialog(null, "Hoy no deberias trabajar");
                         
                         }
                     }
                 } catch (NotFoundException ex) {
+                    Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
+                } catch (ParseException ex) {
                     Logger.getLogger(Checador.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
