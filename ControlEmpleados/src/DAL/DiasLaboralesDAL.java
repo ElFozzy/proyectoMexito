@@ -7,6 +7,7 @@ package DAL;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +32,21 @@ public class DiasLaboralesDAL {
                 +"'"+emp+"'");
         con.Desconectar();
         return ComandoEjecutado;
+    }
+    
+    public ArrayList SeleccionarDias(int idEmp)
+    {
+        ArrayList lista = new ArrayList();
+        ResultSet ComandoEjecutado = con.EjecutarSentenciaSQL("Select * from DiasLaborales where idEmp='"+idEmp+"'");
+        try {
+            while(ComandoEjecutado.next())
+            {
+                lista.add(ComandoEjecutado.getInt(2));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(DiasLaboralesDAL.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        return lista;
     }
     
     public boolean IsDiaLaboral(int idEmp, int dia)

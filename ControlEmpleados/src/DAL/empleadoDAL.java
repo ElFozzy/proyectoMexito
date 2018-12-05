@@ -98,7 +98,7 @@ public class empleadoDAL {
         DefaultTableModel dtm =new DefaultTableModel(
         new Object [][] {},
         new String [] {
-         "id","Nombre Empleado","Foto","Sexo","FechaIngreso","FechaRetiro","QR","Turno"
+         "id","Nombre Empleado","Foto","Sexo","FechaIngreso","FechaRetiro","QR","Turno","Hora Entrada","Hora Salida"
         }
        ){ @Override
         public boolean isCellEditable(int row, int column) {
@@ -119,7 +119,9 @@ public class empleadoDAL {
         Resultado.getString(5),
         Resultado.getString(6), 
         Resultado.getString(7),
-        Resultado.getString(8)
+        Resultado.getString(8),
+        Resultado.getString(9),
+        Resultado.getString(10)
             
     };
         // Agregar Datos al JTable

@@ -80,7 +80,22 @@ public class GestionEmpleados extends javax.swing.JFrame {
         dtRetiro.setDate(null);
         cboTurno.setSelectedIndex(0);        
         txtFoto.setText("");
-        lbLoadImage.setIcon(null);                
+        lbLoadImage.setIcon(null);   
+       
+             chkLunes.setSelected(false);
+       
+             chkMartes.setSelected(false);
+       
+             chkMiercoles.setSelected(false);
+       
+             chkJuves.setSelected(false);
+       
+             chkViernes.setSelected(false);
+       
+            chkSabado.setSelected(false);
+       
+            chkDomingo.setSelected(false);
+        
     }
         
     public empleadoBL RecolectarQR(){
@@ -135,7 +150,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
             if(chkSabado.isSelected())
                 dias.add(6); 
             if(chkDomingo.isSelected())
-                dias.add(7);
+                dias.add(0);
                             
         return objempBL;
     }
@@ -525,6 +540,56 @@ public class GestionEmpleados extends javax.swing.JFrame {
         Icon icono = new ImageIcon(icon.getImage().getScaledInstance(lbLoadImage.getWidth(), lbLoadImage.getHeight(), Image.SCALE_SMOOTH));
         lbLoadImage.setText(null);
         lbLoadImage.setIcon(icono);
+        
+        tpEnt.setText(target.getValueAt(row, 8).toString());
+        tpSal.setText(target.getValueAt(row, 9).toString());
+        
+        chkLunes.setSelected(false);
+       
+             chkMartes.setSelected(false);
+       
+             chkMiercoles.setSelected(false);
+       
+             chkJuves.setSelected(false);
+       
+             chkViernes.setSelected(false);
+       
+            chkSabado.setSelected(false);
+       
+            chkDomingo.setSelected(false);
+        
+        ArrayList diasL = laborales.SeleccionarDias(Integer.parseInt(txtId.getText()));
+        
+        if(diasL.contains(1))
+        {
+             chkLunes.setSelected(true);
+        }
+        if(diasL.contains(2))
+        {
+             chkMartes.setSelected(true);
+        }
+        if(diasL.contains(3))
+        {
+             chkMiercoles.setSelected(true);
+        }
+        if(diasL.contains(4))
+        {
+             chkJuves.setSelected(true);
+        }
+        if(diasL.contains(5))
+        {
+             chkViernes.setSelected(true);
+        }
+        if(diasL.contains(6))
+        {
+            chkSabado.setSelected(true);
+        }
+        if(diasL.contains(0))
+        {
+            chkDomingo.setSelected(true);
+        }
+        
+        
         
     }//GEN-LAST:event_tbEmpleadosMouseClicked
 
