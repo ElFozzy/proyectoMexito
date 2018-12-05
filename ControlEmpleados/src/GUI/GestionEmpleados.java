@@ -67,6 +67,7 @@ public class GestionEmpleados extends javax.swing.JFrame {
         txtId.setVisible(false);
         txtIDQR.setVisible(false);
         txtRutaQr.setVisible(false);
+        this.setLocationRelativeTo(null);
         
         ActualizarEmpleado();    
     }

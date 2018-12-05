@@ -32,10 +32,10 @@ public class ReporteGafete {
             parametros.put("id", id);
             JasperPrint jasperPrintWindow;
             jasperPrintWindow = JasperFillManager.fillReport(
-                    "C:\\Users\\Daniel\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\src\\Reportes\\gafete.jasper",parametros,
+                    "C:\\Users\\y2jmo\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\src\\Reportes\\gafete.jasper",parametros,
                     conexion.Conectar());
-            JasperViewer jasperViewer = new JasperViewer(jasperPrintWindow);
-	    jasperViewer.setVisible(true);
+            JasperViewer print = new JasperViewer(jasperPrintWindow, false);
+            print.setVisible(true);
         } catch (JRException ex) {
             Logger.getLogger(ReporteGafete.class.getName()).log(Level.SEVERE, null, ex);
         }

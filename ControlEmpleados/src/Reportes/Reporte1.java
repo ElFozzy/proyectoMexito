@@ -29,7 +29,7 @@ public class Reporte1 {
     public void ReporteEmpleados(){
     
         try{
-            JasperReport reporte =(JasperReport)JRLoader.loadObjectFromFile("C:\\Users\\Daniel\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\src\\Reportes\\Reporte1.jasper");
+            JasperReport reporte =(JasperReport)JRLoader.loadObjectFromFile("C:\\Users\\y2jmo\\Documents\\GitHub\\proyectoMexito\\ControlEmpleados\\src\\Reportes\\Reporte1.jasper");
             //Map parametro= new HashMap();
             Conexion con = new Conexion();
             JasperPrint jasper = JasperFillManager.fillReport(reporte, null, con.Conectar());

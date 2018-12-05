@@ -27,7 +27,7 @@ public class Conexion {
     
     public Connection Conectar(){
         try{         
-            this.conn = DriverManager.getConnection(conexPatF);
+            this.conn = DriverManager.getConnection(conexMontalvo);
             
             System.out.println("Conectado");
         }catch(Exception ex){
